@@ -9,9 +9,7 @@ const problemRoutes=require('./routes/interviewee/problem')
 const tagRoutes=require('./routes/interviewee/tag')
 
 app.get("/ping", function (req, res) {
-    res.json({
-        message:'hello world changed'
-    });
+    res.send("hello world");
 });
 
 app.use('/auth', authRoutes);
@@ -19,4 +17,4 @@ app.use('/problem', problemRoutes);
 app.use('/tag', tagRoutes);
 
 
-module.exports = app;
+module.exports = {app};
