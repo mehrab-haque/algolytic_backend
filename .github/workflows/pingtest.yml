@@ -9,12 +9,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-        DB_TYPE:postgres
-        DB_USER:root
-        DB_PASS:passWord123$$$
-        DB_HOST:algolyticdb.cy07c5le73ah.ap-south-1.rds.amazonaws.com
-        DB_PORT:5432
-        DB_DB:postgres
+      DB_TYPE: postgres
+      DB_USER: root
+      DB_PASS: passWord123$$$
+      DB_HOST: algolyticdb.cy07c5le73ah.ap-south-1.rds.amazonaws.com
+      DB_PORT: 5432
+      DB_DB: postgres
 
     steps:
       - name: Checkout code
