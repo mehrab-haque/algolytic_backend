@@ -12,8 +12,8 @@ const Tag = sq.define("tag", {
     }
   });
 
-  Tag.sync().then(() => {
-    console.log("Tag Model synced");
-  });
+  Tag.sync().catch(err=>{
+    console.log(err)
+  })
 
   module.exports = Tag;

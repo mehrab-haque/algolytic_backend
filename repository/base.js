@@ -9,20 +9,20 @@ const sequelize = new Sequelize(process.env.DB_DB, process.env.DB_USER, process.
            rejectUnauthorized: false,
         }
     },
-    logging: console.log,
+    logging: false
   })
 
-const dbConnection = async () => {
-    try {
-      await sequelize.authenticate();
-      console.log("Connection has been established successfully.");
-    } catch (error) {
-      console.error("Unable to connect to the database:", error);
-    }
-  };
+// const dbConnection = async () => {
+//     try {
+//       await sequelize.authenticate();
+//       console.log("Connection has been established successfully.");
+//     } catch (error) {
+//       console.error("Unable to connect to the database:", error);
+//     }
+//   };
 
 class Repository{
     constructor() {}
 }
 
-module.exports = { sq: sequelize, dbConnection,Repository };
+module.exports = { sq: sequelize,Repository };
