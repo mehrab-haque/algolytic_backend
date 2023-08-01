@@ -1,0 +1,36 @@
+{
+  "name": "algolytic_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mehrab-haque/algolytic_backend.git"
+  },
+  "author": "Md. Mehrab Haque, Rabib Jahin, Ahmed Rumi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mehrab-haque/algolytic_backend/issues"
+  },
+  "homepage": "https://github.com/mehrab-haque/algolytic_backend#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-promise-router": "^4.1.1",
+    "jsonwebtoken": "^9.0.1",
+    "jwt-decode": "^3.1.2",
+    "pg": "^8.11.2",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  }
+}
