@@ -12,6 +12,7 @@ app.get("/api/v1.0.0/ping", function (req, res) {
     res.send("hello world 2");
 });
 
+
 app.use('/api/v1.0.0/auth', authRoutes);
 app.use('/api/v1.0.0/problem', problemRoutes);
 app.use('/api/v1.0.0/tag', tagRoutes);
