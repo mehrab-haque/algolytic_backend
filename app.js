@@ -9,7 +9,7 @@ const problemRoutes=require('./routes/interviewee/problem')
 const tagRoutes=require('./routes/interviewee/tag')
 
 app.get("/ping", function (req, res) {
-    res.send("hello world");
+    res.send("hello world 2");
 });
 
 app.use('/auth', authRoutes);
