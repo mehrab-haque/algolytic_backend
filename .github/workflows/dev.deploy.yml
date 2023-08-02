@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: sudo apt install docker-compose -y
+        run: apt install docker-compose -y
 
       - name: Deploy to VM
         run: |
-          sudo docker-compose down -v && sudo docker-compose up -d --build
+          docker-compose down -v && sudo docker-compose up -d --build
