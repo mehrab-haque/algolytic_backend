@@ -20,7 +20,7 @@ const sequelize = new Sequelize(process.env.DB_DB, process.env.DB_USER, process.
 //       console.error("Unable to connect to the database:", error);
 //     }
 //   };
- //
+
 class Repository{
     constructor() {}
 }
