@@ -8,13 +8,13 @@ const authRoutes=require('./routes/auth')
 const problemRoutes=require('./routes/interviewee/problem')
 const tagRoutes=require('./routes/interviewee/tag')
 
-app.get("/ping", function (req, res) {
+app.get("/api/v1.0.0/ping", function (req, res) {
     res.send("hello world 2");
 });
 
-app.use('/auth', authRoutes);
-app.use('/problem', problemRoutes);
-app.use('/tag', tagRoutes);
+app.use('/api/v1.0.0/auth', authRoutes);
+app.use('/api/v1.0.0/problem', problemRoutes);
+app.use('/api/v1.0.0/tag', tagRoutes);
 
 
 module.exports = {app};
