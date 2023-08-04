@@ -9,7 +9,7 @@ class ProblemController extends Controller{
     }
 
     list=async (req,res)=>{
-        var result=await problemService.list(req.body)
+        var result=await problemService.list()
         return res.status(200).json(result)
     }
 

@@ -1,13 +1,29 @@
 const axios=require('axios')
 const Service = require('../base').Service;
+const ProblemRepository=require('../../repository/problem').ProblemRepository
+
+const problemRepository=new ProblemRepository()
 
 class ProblemService extends Service {
     constructor() {
         super();
     }
 
-    list =async (filter)=>{
-        return {success:true}
+    list =async ()=>{
+
+        try{
+            var problems=await problemRepository.getAll()
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
     //     var query=`
     //         SELECT * FROM problem
     //         WHERE is_live = true  
