@@ -28,6 +28,11 @@ class ProblemController extends Controller{
         return res.status(200).json(result)
     }
 
+    getSubmissionsbyProblemId=async (req,res)=>{
+        var result=await problemService.getSubmissionsbyProblemId(req.params.id)
+        return res.status(200).json(result)
+    }
+
     submit=async (req,res)=>{
         var result=await problemService.submit(req.body)
         return res.status(200).json(result)
