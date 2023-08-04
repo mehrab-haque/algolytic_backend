@@ -12,7 +12,7 @@ class ProblemRepository extends Repository {
     }
 
     create=async problem=>{
-        const problem = Problem.create({
+        const pr = Problem.create({
             title:problem.title,
             isLive:problem.isLive,
             isPremium:problem.isPremium,
@@ -20,7 +20,7 @@ class ProblemRepository extends Repository {
             data_json:problem.data_json,
             logo:problem.logo
         })
-        return problem
+        return pr
     }
 
 }
