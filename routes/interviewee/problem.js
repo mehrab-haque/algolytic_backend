@@ -3,7 +3,7 @@ const ProblemController=require('../../controllers/interviewee/problem').Problem
 
 const problemController=new ProblemController()
 
-router.route("/list").post(problemController.list);
+router.route("/list").get(problemController.list);
 router.route("/create").post(problemController.create);
 router.route("/update/:id").post(problemController.update);
 router.route("/get/:id").get(problemController.get);
