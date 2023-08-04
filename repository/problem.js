@@ -11,6 +11,12 @@ class ProblemRepository extends Repository {
         return problems
     }
 
+
+
+    delete=async (id)=>{
+        var problems = await Problem.destroy({where:{problem_id:id} });
+        return problems
+    }
     create=async problem=>{
         const pr = Problem.create({
             title:problem.title,
@@ -18,7 +24,11 @@ class ProblemRepository extends Repository {
             isPremium:problem.isPremium,
             author_id:problem.author_id,            
             data_json:problem.data_json,
-            logo:problem.logo
+            logo:problem.logo,
+            tag:problem.tag,
+            difficulty:problem.difficulty,
+            acceptance:problem.acceptance
+            
         })
         return pr
     }

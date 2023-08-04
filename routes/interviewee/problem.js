@@ -6,6 +6,7 @@ const problemController=new ProblemController()
 router.route("/list").get(problemController.list);
 router.route("/create").post(problemController.create);
 router.route("/update/:id").post(problemController.update);
+router.route("/delete/:id").delete(problemController.delete);
 router.route("/get/:id").get(problemController.get);
 router.route("/submit").post(problemController.submit);
 router.route("/submissions/:id").get(problemController.getSubmissionsbyProblemId);
