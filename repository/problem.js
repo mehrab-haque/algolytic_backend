@@ -24,6 +24,11 @@ class ProblemRepository extends Repository {
         var problems = await Problem.findAll({where:queryObj });
         return problems
     }
+    
+    get=async (id)=>{
+        var problem = await Problem.findByPk(id)
+        return problem
+    }
 
     delete=async (id)=>{
         var problems = await Problem.destroy({where:{problem_id:id} });
