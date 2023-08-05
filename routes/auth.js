@@ -3,6 +3,7 @@ const AuthController=require('../controllers/auth').AuthController
 
 const authController=new AuthController()
 
-router.route("/google-login").post(authController.googleLogin);
+router.route("/register").post(authController.register);
+router.route("/login").post(authController.login);
 
 module.exports=router
