@@ -1,9 +1,10 @@
 const axios=require('axios')
 const Service = require('../base').Service;
 const ProblemRepository=require('../../repository/problem').ProblemRepository
+const SubmissionRepository=require('../../repository/submission').SubmissionRepository
 
 const problemRepository=new ProblemRepository()
-
+const subRepository=new SubmissionRepository()
 class ProblemService extends Service {
     constructor() {
         super();
@@ -99,7 +100,20 @@ class ProblemService extends Service {
     }
 
     get =async (id)=>{
-        return {success:true}
+      
+        try{
+            var problem=await problemRepository.get(id)
+            return {
+                success:true,
+                data:problem
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
     //     var query=`
     //         SELECT * FROM problem
     //         WHERE id = $1  
@@ -111,7 +125,7 @@ class ProblemService extends Service {
 
     getSubmissionsbyProblemId =async (id)=>{
         try{
-            var submissions=await SubmissionRepository.getSubsbyProblem(id)
+            var submissions=await subRepository.getSubsbyProblem(id)
             return {
                 success:true,
                 data:submissions

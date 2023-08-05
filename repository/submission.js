@@ -27,4 +27,4 @@ class SubmissionRepository extends Repository {
 
 }
 
-module.exports = {ProblemRepository}
+module.exports = {SubmissionRepository}

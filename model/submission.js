@@ -24,7 +24,7 @@ const Submission = sq.define("submission", {
     },
     language:{
         type: Sequelize.STRING
-    }   
+    }   ,
     
 
   });
