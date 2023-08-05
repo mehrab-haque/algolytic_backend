@@ -43,7 +43,7 @@ const Problem = sq.define("problem", {
 
   });
 
-  Problem.sync().catch(err=>{
+  Problem.sync(/*{force:true}*/).catch(err=>{
     console.log(err)
   })
 
