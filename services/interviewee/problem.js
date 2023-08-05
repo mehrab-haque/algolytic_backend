@@ -221,48 +221,55 @@ class ProblemService extends Service {
         return {success:true}
     }
 
-    submit=async ({problem_id,user_id,code})=>{
-        // //var isReady=false
-        // //console.log('hi1')
+    submit=async ({problem_id,user_id,code,lang})=>{
+        //var isReady=false
+        //console.log('hi1')
 
-        // var problemArr=await this.query(`SELECT data_json FROM problem WHERE id=$1`,[problem_id])
+        var problem=await problemRepository.get(problem_id)
 
-        // var input=await(problemArr.data[0].data_json.matchInput)
-        // var output=await(problemArr.data[0].data_json.matchOutput)
+        console.log(problem.data_json,problem_id)
 
-        // var program = {
-        //     script : code,
-        //     stdin:input,
-        //     language: "cpp",
-        //     versionIndex: "0",
-        //     clientId: "7056f59f69fa61c7754a1738ce0d3cfe",
-        //     clientSecret:"9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e"
-        // };
+        var input=problem.data_json['match-input']
+        var output=problem.data_json['match-output']
 
-        // var isError=false;
+
+        var program = {
+            script : code,
+            stdin:input,
+            language: "cpp",
+            versionIndex: "0",
+            clientId: "7056f59f69fa61c7754a1738ce0d3cfe",
+            clientSecret:"9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e"
+        };
+
+        var isError=false;
         
-        // var compilerResponse=await axios.post('https://api.jdoodle.com/v1/execute',program).catch(err=>{
-        //     isError=true;
-        // })
-        // compilerResponse=compilerResponse.data
+        var compilerResponse=await axios.post('https://api.jdoodle.com/v1/execute',program).catch(err=>{
+            isError=true;
+        })
+        compilerResponse=compilerResponse.data
+        console.log(compilerResponse)
 
 
-        // var verdict=!isError?`${compilerResponse.output}`===`${output}`:false;
+        var verdict=!isError?`${compilerResponse.output}`===`${output}`:false;
+        
+        console.log(verdict)
+
+        return {success:true,verdict:verdict}
 
 
+        var insertQuery=`
+            INSERT INTO submission
+            (problem_id,user_id,verdict,code,timestamp)
+            VALUES ($1,$2,$3,$4,$5)
+        `
+        var insertParams=[problem_id,user_id,verdict,code,parseInt(Date.now()/1000)]
+        await this.query(insertQuery,insertParams)
+        return {
+            success:true,
+            verdict:verdict
+        }
 
-        // var insertQuery=`
-        //     INSERT INTO submission
-        //     (problem_id,user_id,verdict,code,timestamp)
-        //     VALUES ($1,$2,$3,$4,$5)
-        // `
-        // var insertParams=[problem_id,user_id,verdict,code,parseInt(Date.now()/1000)]
-        // await this.query(insertQuery,insertParams)
-        // return {
-        //     success:true,
-        //     verdict:verdict
-        // }
-        return {success:true}
         
     }
 
