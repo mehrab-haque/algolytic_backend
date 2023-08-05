@@ -11,6 +11,11 @@ class ProblemRepository extends Repository {
         return problems
     }
 
+    get=async (id)=>{
+        var problem = await Problem.findByPk(id)
+        return problem
+    }
+
 
 
     delete=async (id)=>{

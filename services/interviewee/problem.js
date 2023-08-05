@@ -100,7 +100,20 @@ class ProblemService extends Service {
     }
 
     get =async (id)=>{
-        return {success:true}
+      
+        try{
+            var problem=await problemRepository.get(id)
+            return {
+                success:true,
+                data:problem
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
     //     var query=`
     //         SELECT * FROM problem
     //         WHERE id = $1  
