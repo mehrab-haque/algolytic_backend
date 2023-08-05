@@ -9,12 +9,17 @@ class ProblemController extends Controller{
     }
 
     list=async (req,res)=>{
-        var result=await problemService.list(req.body)
+        var result=await problemService.list()
         return res.status(200).json(result)
     }
 
     create=async (req,res)=>{
         var result=await problemService.create(req.body)
+        return res.status(200).json(result)
+    }
+
+    delete=async (req,res)=>{
+        var result=await problemService.delete(req.params.id)
         return res.status(200).json(result)
     }
 
@@ -27,6 +32,18 @@ class ProblemController extends Controller{
         var result=await problemService.get(req.params.id)
         return res.status(200).json(result)
     }
+
+    getSubmissionsbyProblemId=async (req,res)=>{
+        var result=await problemService.getSubmissionsbyProblemId(req.params.id)
+        return res.status(200).json(result)
+    }    
+
+    getFilteredProblems=async (req,res)=>{
+        var result=await problemService.getFilteredProblems(req.query)
+        return res.status(200).json(result)
+    }
+
+    
 
     submit=async (req,res)=>{
         var result=await problemService.submit(req.body)

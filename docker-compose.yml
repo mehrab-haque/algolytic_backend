@@ -12,6 +12,7 @@ services:
       - DB_PORT=5432
       - DB_DB=postgres
       - PORT=4000
+      - JWT_SECRET=abracadabra
 
     ports:
-      - 80:4000
+      - 4000:4000

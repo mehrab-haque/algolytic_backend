@@ -1,13 +1,30 @@
 const axios=require('axios')
 const Service = require('../base').Service;
+const ProblemRepository=require('../../repository/problem').ProblemRepository
+const SubmissionRepository=require('../../repository/submission').SubmissionRepository
 
+const problemRepository=new ProblemRepository()
+const subRepository=new SubmissionRepository()
 class ProblemService extends Service {
     constructor() {
         super();
     }
 
-    list =async (filter)=>{
-        return {success:true}
+    list =async ()=>{
+
+        try{
+            var problems=await problemRepository.getAll()
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
     //     var query=`
     //         SELECT * FROM problem
     //         WHERE is_live = true  
@@ -22,8 +39,20 @@ class ProblemService extends Service {
     //     return problems;
     }
 
-    create =async ({author_id,title,is_live,tag,is_premium,logo,difficulty,data_json})=>{
-        return {success:true}
+    create =async (problem)=>{
+        try{
+            var pr=await problemRepository.create(problem)
+            return {
+                success:true,
+                data:pr
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
         //     var query=`
     //         INSERT INTO problem
     //         (author_id,title,is_live,is_premium,logo,difficulty,data_json,tag)
@@ -35,6 +64,21 @@ class ProblemService extends Service {
     //     return res
     }
 
+    delete =async (id)=>{
+        try{
+            var pr=await problemRepository.delete(id)
+            return {
+                success:true,
+              
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+    }
     update =async (id,{author_id,title,is_live,tag,is_premium,logo,difficulty,data_json})=>{
         return {success:true}
         //     var query=`
@@ -56,7 +100,67 @@ class ProblemService extends Service {
     }
 
     get =async (id)=>{
-        return {success:true}
+      
+        try{
+            var problem=await problemRepository.get(id)
+            return {
+                success:true,
+                data:problem
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+    //     var query=`
+    //         SELECT * FROM problem
+    //         WHERE id = $1  
+    //     `;
+    //    var params=[id] 
+    //    var problems=await this.query(query,params);
+    //     return problems;
+    }
+
+    getSubmissionsbyProblemId =async (id)=>{
+        try{
+            var submissions=await subRepository.getSubsbyProblem(id)
+            return {
+                success:true,
+                data:submissions
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+    //     var query=`
+    //         SELECT * FROM problem
+    //         WHERE id = $1  
+    //     `;
+    //    var params=[id] 
+    //    var problems=await this.query(query,params);
+    //     return problems;
+    }
+
+    getFilteredProblems =async (query)=>{
+        console.log(query)
+        try{
+            var problems=await problemRepository.getFilteredProblems(query)
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
     //     var query=`
     //         SELECT * FROM problem
     //         WHERE id = $1  
@@ -92,7 +196,20 @@ class ProblemService extends Service {
         return {success:true}
     }
 
-    getSubmissions=async ({user_id,problem_id})=>{
+    getSubmissions=async ({problem_id})=>{
+        // try{
+        //     var submissions=await SubmissionRepository.getAll()
+        //     return {
+        //         success:true,
+        //         data:problems
+        //     }
+
+        // }catch(e){
+        //     console.log(e)
+        //     return {
+        //         success:false,
+        //     }
+        // }
         // var query=`
         //     SELECT * FROM submission
         //     WHERE user_id = $1
@@ -104,48 +221,55 @@ class ProblemService extends Service {
         return {success:true}
     }
 
-    submit=async ({problem_id,user_id,code})=>{
-        // //var isReady=false
-        // //console.log('hi1')
+    submit=async ({problem_id,user_id,code,lang})=>{
+        //var isReady=false
+        //console.log('hi1')
 
-        // var problemArr=await this.query(`SELECT data_json FROM problem WHERE id=$1`,[problem_id])
+        var problem=await problemRepository.get(problem_id)
 
-        // var input=await(problemArr.data[0].data_json.matchInput)
-        // var output=await(problemArr.data[0].data_json.matchOutput)
+        console.log(problem.data_json,problem_id)
 
-        // var program = {
-        //     script : code,
-        //     stdin:input,
-        //     language: "cpp",
-        //     versionIndex: "0",
-        //     clientId: "7056f59f69fa61c7754a1738ce0d3cfe",
-        //     clientSecret:"9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e"
-        // };
+        var input=problem.data_json['match-input']
+        var output=problem.data_json['match-output']
 
-        // var isError=false;
+
+        var program = {
+            script : code,
+            stdin:input,
+            language: "cpp",
+            versionIndex: "0",
+            clientId: "7056f59f69fa61c7754a1738ce0d3cfe",
+            clientSecret:"9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e"
+        };
+
+        var isError=false;
         
-        // var compilerResponse=await axios.post('https://api.jdoodle.com/v1/execute',program).catch(err=>{
-        //     isError=true;
-        // })
-        // compilerResponse=compilerResponse.data
+        var compilerResponse=await axios.post('https://api.jdoodle.com/v1/execute',program).catch(err=>{
+            isError=true;
+        })
+        compilerResponse=compilerResponse.data
+        console.log(compilerResponse)
 
 
-        // var verdict=!isError?`${compilerResponse.output}`===`${output}`:false;
+        var verdict=!isError?`${compilerResponse.output}`===`${output}`:false;
+        
+        console.log(verdict)
+
+        return {success:true,verdict:verdict}
 
 
+        var insertQuery=`
+            INSERT INTO submission
+            (problem_id,user_id,verdict,code,timestamp)
+            VALUES ($1,$2,$3,$4,$5)
+        `
+        var insertParams=[problem_id,user_id,verdict,code,parseInt(Date.now()/1000)]
+        await this.query(insertQuery,insertParams)
+        return {
+            success:true,
+            verdict:verdict
+        }
 
-        // var insertQuery=`
-        //     INSERT INTO submission
-        //     (problem_id,user_id,verdict,code,timestamp)
-        //     VALUES ($1,$2,$3,$4,$5)
-        // `
-        // var insertParams=[problem_id,user_id,verdict,code,parseInt(Date.now()/1000)]
-        // await this.query(insertQuery,insertParams)
-        // return {
-        //     success:true,
-        //     verdict:verdict
-        // }
-        return {success:true}
         
     }
 
