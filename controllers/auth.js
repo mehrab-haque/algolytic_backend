@@ -8,12 +8,14 @@ class AuthController extends Controller{
         super()
     }
 
-    googleLogin=async (req,res)=>{
-        var result=await authService.googleLogin(req.body)
-        return res.status(200).json({
-            success:result.success,
-            token:result.success?result.token:null
-        })
+    register=async (req,res)=>{
+        var result=await authService.register(req.body)
+        return res.status(200).json(result)
+    }
+
+    login=async (req,res)=>{
+        var result=await authService.login(req.body)
+        return res.status(200).json(result)
     }
 }
 

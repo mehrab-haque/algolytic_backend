@@ -1,46 +1,66 @@
 const Service = require('./base').Service;
 const jwt_decode = require('jwt-decode');
 const constants= require('../config/constants')
+const bcrypt=require('bcryptjs')
 const JWT = require('jsonwebtoken');
+const AuthRepository=require('../repository/auth').AuthRepository
+
+const authRepository=new AuthRepository()
 
 class AuthService extends Service {
     constructor() {
         super();
     }
 
-    googleLogin=async ({credential})=>{
-        return {success:true}
-        // try{
-        //     var userData= jwt_decode(credential)
-        //     var findQuery= `SELECT * FROM auth WHERE gmail=$1 and type=$2`
-        //     var findParams=[userData.email,constants.userTypeMapping.USER_TYPE_REGULAR]
-        //     var findResult=await this.query(findQuery,findParams)
-        //     var tokenObject
-        //     if(findResult.data.length===0){
-        //         var timestamp=parseInt(Date.now()/1000)
-        //         var insertQuery= `
-        //             INSERT INTO auth (gmail,name,image,type,joined_at,last_login) 
-        //             VALUES ($1,$2,$3,$4,$5,$6)
-        //             RETURNING id`
-        //         var insertParams=[userData.email,userData.name,userData.picture,constants.userTypeMapping.USER_TYPE_REGULAR,timestamp,timestamp]
-        //         var insertResult=await this.query(insertQuery,insertParams)
-        //         tokenObject={
-        //             id:insertResult.data[0].id,
-        //             name:userData.name,
-        //             gmail:userData.email,
-        //             image:userData.picture,
-        //             type:constants.userTypeMapping.USER_TYPE_REGULAR,
-        //             joined_at:timestamp,
-        //             last_login:timestamp
-        //         }
-        //     }
-        //     else tokenObject=findResult.data[0]
-        //     const token=JWT.sign(tokenObject, process.env.JWT_SECRET);
-        //     return {success:true,token}
-        // }catch(err){
-        //     return {success:false}
-        // }
+    signToken = user =>{
+        return JWT.sign(user.get({ plain: true }), process.env.JWT_SECRET);
     }
+
+    register=async creds=>{
+
+        const lookupResult=await authRepository.checkIfLoginExists(creds.login)
+        console.log(lookupResult)
+        if(lookupResult){
+            return {
+                success:false,
+                message:'user already exists'
+            }
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hashedPass = await bcrypt.hash(creds.password,salt)
+        const insertResult=await authRepository.create({...creds,password:hashedPass})
+        return {
+            success:true,
+            result:insertResult
+        }
+
+    }
+
+    login=async creds=>{
+        const lookupResult=await authRepository.getUserByLogin(creds.login)
+        if(lookupResult.length===0){
+            return {
+                success:false,
+                message:'user does not exist'
+            }
+        }
+        var hashedPass=lookupResult[0].password
+        const isPassValid=await bcrypt.compare(creds.password,hashedPass)
+        if(!isPassValid)
+            return{
+                success:false,
+                error:'wrong password'
+            }
+        const token=this.signToken(lookupResult[0])
+        return{
+            success:true,
+            token
+        }
+
+    }
+
+    
 }
 
 module.exports = {AuthService}

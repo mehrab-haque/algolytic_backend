@@ -1,6 +1,6 @@
 module.exports={
     userTypeMapping:{
-        USER_TYPE_ADMIN:1,
-        USER_TYPE_REGULAR:2
+        USER_TYPE_ADMIN:'AUTH_ADMIN',
+        USER_TYPE_REGULAR:'AUTH_REGULAR'
     }
 }
