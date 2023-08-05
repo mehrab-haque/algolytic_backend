@@ -18,6 +18,11 @@ class ProblemController extends Controller{
         return res.status(200).json(result)
     }
 
+    delete=async (req,res)=>{
+        var result=await problemService.delete(req.params.id)
+        return res.status(200).json(result)
+    }
+
     update=async (req,res)=>{
         var result=await problemService.update(req.params.id,req.body)
         return res.status(200).json(result)

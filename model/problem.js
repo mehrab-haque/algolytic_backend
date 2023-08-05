@@ -30,11 +30,20 @@ const Problem = sq.define("problem", {
     },
     logo:{
         type: Sequelize.STRING
+    },
+    difficulty:{
+        type: Sequelize.STRING 
+    },
+    tag:{
+        type: Sequelize.STRING 
+    },
+    acceptance:{
+        type: Sequelize.STRING
     }
 
   });
 
-  Problem.sync().catch(err=>{
+  Problem.sync(/*{force:true}*/).catch(err=>{
     console.log(err)
   })
 

@@ -38,8 +38,20 @@ class ProblemService extends Service {
     //     return problems;
     }
 
-    create =async ({author_id,title,is_live,tag,is_premium,logo,difficulty,data_json})=>{
-        return {success:true}
+    create =async (problem)=>{
+        try{
+            var pr=await problemRepository.create(problem)
+            return {
+                success:true,
+                data:pr
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
         //     var query=`
     //         INSERT INTO problem
     //         (author_id,title,is_live,is_premium,logo,difficulty,data_json,tag)
@@ -51,6 +63,21 @@ class ProblemService extends Service {
     //     return res
     }
 
+    delete =async (id)=>{
+        try{
+            var pr=await problemRepository.delete(id)
+            return {
+                success:true,
+              
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+    }
     update =async (id,{author_id,title,is_live,tag,is_premium,logo,difficulty,data_json})=>{
         return {success:true}
         //     var query=`
