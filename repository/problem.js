@@ -11,17 +11,30 @@ class ProblemRepository extends Repository {
         return problems
     }
 
+    getFilteredProblems=async (query)=>{
+
+        var fields=['isPremium','tag','difficulty']
+        
+        var queryObj={}
+        fields.map(f=>{
+            if(query[f])
+                queryObj[f]=query[f]
+        })
+        
+        var problems = await Problem.findAll({where:queryObj });
+        return problems
+    }
+    
     get=async (id)=>{
         var problem = await Problem.findByPk(id)
         return problem
     }
 
-
-
     delete=async (id)=>{
         var problems = await Problem.destroy({where:{problem_id:id} });
         return problems
     }
+
     create=async problem=>{
         const pr = Problem.create({
             title:problem.title,

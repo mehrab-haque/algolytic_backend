@@ -146,6 +146,30 @@ class ProblemService extends Service {
     //     return problems;
     }
 
+    getFilteredProblems =async (query)=>{
+        console.log(query)
+        try{
+            var problems=await problemRepository.getFilteredProblems(query)
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+    //     var query=`
+    //         SELECT * FROM problem
+    //         WHERE id = $1  
+    //     `;
+    //    var params=[id] 
+    //    var problems=await this.query(query,params);
+    //     return problems;
+    }
+
     getSubmissionStats=async ({user_id})=>{
         // var query=`
         //     select count(distinct p.id), p.difficulty

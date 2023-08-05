@@ -11,5 +11,6 @@ router.route("/get/:id").get(problemController.get);
 router.route("/submit").post(problemController.submit);
 router.route("/submissions/:id").get(problemController.getSubmissionsbyProblemId);
 router.route("/submissionstats").post(problemController.getSubmissionStats);
+router.route("/filter").get(problemController.getFilteredProblems);
 
 module.exports=router
