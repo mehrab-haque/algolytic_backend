@@ -14,7 +14,7 @@ app.use(express.json());
 app.use('/api/v1.0.0/docs',swaggarUi.serve,swaggarUi.setup(docs))
 
 app.get("/api/v1.0.0/ping", function (req, res) {
-    res.send("hello world 20");
+    res.send("hello world");
 });
 
 
