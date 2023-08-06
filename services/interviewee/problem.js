@@ -236,7 +236,7 @@ class ProblemService extends Service {
         var program = {
             script : code,
             stdin:input,
-            language: "cpp",
+            language: lang,
             versionIndex: "0",
             clientId: "7056f59f69fa61c7754a1738ce0d3cfe",
             clientSecret:"9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e"
@@ -244,19 +244,31 @@ class ProblemService extends Service {
 
         var isError=false;
         
-        var compilerResponse=await axios.post('https://api.jdoodle.com/v1/execute',program).catch(err=>{
-            isError=true;
-        })
-        compilerResponse=compilerResponse.data
-        console.log(compilerResponse)
+        try{
+            var compilerResponse=await axios.post('https://api.jdoodle.com/v1/execute',program).catch(err=>{
+                isError=true;
+            })
+
+            compilerResponse=compilerResponse.data
+
+            if(compilerResponse.output.includes('SyntaxError')){
+                return {success:true,verdict:false,message:'Syntax Error'}
+            }else if(compilerResponse.output.includes('JDoodle - output Limit reached'))
+                return {success:true,verdict:false,message:'Output Limit Reached'}
+            else if(compilerResponse.output.includes('JDoodle - Timeout'))
+                return {success:true,verdict:false,message:'Time Limit Error'}
 
 
-        var verdict=!isError?`${compilerResponse.output}`===`${output}`:false;
+            var verdict=!isError?`${compilerResponse.output.trim()}`===`${output.trim()}`:false;
+            
+
+            return {success:true,verdict:verdict,message:verdict?'':'Output Mismatch'}
+
+        }catch(err){
+            console.log(err)
+            return {success:true,verdict:false}
+        }
         
-        console.log(verdict)
-
-        return {success:true,verdict:verdict}
-
 
         var insertQuery=`
             INSERT INTO submission
