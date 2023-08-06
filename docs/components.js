@@ -58,45 +58,6 @@ module.exports = {
                     }
     
                 }
-            },
-            saint:{
-                hidden:true,
-                type:"object",
-                properties:{
-                    input:{
-                        type:"object",
-                        description:"saint input data formatted from frontend",
-                        example:{
-                            "data": [
-                              {
-                                "protein_name": "1a0tP",
-                                "protein_length": null,
-                                "protein_sequence": "GPGSAPLPNPPMTPAQHYAQAIHHEGLARHHTTVAEDHRQTANLHDNRIKAAKARYNAGLDPNGLTSAQKHQIERDHHLSLAAQAERHAATHNREAAYHRLHSQTPAPGTKRSIDELD"
-                              },
-                              {
-                                "protein_name": "1a0tG",
-                                "protein_length": 413,
-                                "protein_sequence": "SGFEFHGYARSGVIMNDSGASTKSGAYITPAGETGGAIGRLGNQADTYVEMNLEHKQTLDNGATTRFKVMVADGQTSYNDWTASTSDLNVRQAFVELGNLPTFAGPFKGSTLWAGKRFDRDNFDIHWIDSDVVFLAGTGGGIYDVKWNDGLRSNFSLYGRNFGDIDDSSNSVQNYILTMNHFAGPLQMMVSGLRAKDNDERKDSNGNLAKGDAANTGVHALLGLHNDSFYGLRDGSSKTALLYGHGLGAEVKGIGSDGALRPGADTWRIASYGTTPLSENWSVAPAMLAQRSKDRYADGDSYQWATFNLRLIQAINQNFALAYEGSYQYMDLKPEGYNDRQAVNGSFYKLTFAPTFKVGSIGDFFSRPEIRFYTSWMDWSKKLNNYASDDALGSDGFNSGGEWSFGVQMETWF"
-                              }
-                            ]
-                          }
-                    },
-                    captchaId:{
-                        type:"string",
-                        description:"Captcha Id",
-                        example:"captcha-id"
-                    } ,
-                    captchaString:{
-                        type:"string",
-                        description:"Captcha String",
-                        example:"captcha-string"
-                    } ,
-                    isPublic:{
-                        type:"boolean",
-                        description:"Whether this SAINT can be availed publicly or not",
-                        example:"true"
-                    }    
-                }
             }
         }
     }
