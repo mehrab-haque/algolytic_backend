@@ -3,6 +3,7 @@ const jwt_decode = require('jwt-decode');
 const constants= require('../config/constants')
 const bcrypt=require('bcryptjs')
 const JWT = require('jsonwebtoken');
+const { userTypeMapping } = require('../config/constants');
 const AuthRepository=require('../repository/auth').AuthRepository
 
 const authRepository=new AuthRepository()
@@ -29,7 +30,7 @@ class AuthService extends Service {
 
         const salt = await bcrypt.genSalt(10)
         const hashedPass = await bcrypt.hash(creds.password,salt)
-        const insertResult=await authRepository.create({...creds,password:hashedPass})
+        const insertResult=await authRepository.create({...creds,password:hashedPass,type:userTypeMapping.USER_TYPE_REGULAR})
         return {
             success:true,
             result:insertResult
@@ -62,5 +63,4 @@ class AuthService extends Service {
 
     
 }
-
 module.exports = {AuthService}
