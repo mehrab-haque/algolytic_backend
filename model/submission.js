@@ -28,6 +28,9 @@ const Submission = sq.define("submission", {
     
 
   });
+ 
+
+ 
 
   Submission.sync().catch(err=>{
     console.log(err)

@@ -18,9 +18,13 @@ class SubmissionRepository extends Repository {
     postSubmission=async submission=>{
         const sb = Submission.create({            
             problem_id:submission.problem_id,            
-            solution:submission.solution,
-            submission_time:submission.submission_time,
-            language:submission.language            
+            solution:submission.code,
+            submission_time:Date.now(),
+
+            
+            language:submission.lang,
+            user_id:submission.user_id ,
+            verdict:submission.verdict      
         })
         return sb
     }
