@@ -6,10 +6,11 @@ class SubmissionRepository extends Repository {
         super();
     }
 
-    getSubsbyProblem=async id=>{
+    getSubsbyProblem=async req=>{
         var submissions = await Submission.findAll({
             where: {
-              problem_id:id 
+              problem_id:req.params.id ,
+              user_id:req.body.user_id
             }
           });
         return submissions

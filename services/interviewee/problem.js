@@ -123,9 +123,9 @@ class ProblemService extends Service {
     //     return problems;
     }
 
-    getSubmissionsbyProblemId =async (id)=>{
+    getSubmissionsbyProblemId =async (req)=>{
         try{
-            var submissions=await subRepository.getSubsbyProblem(id)
+            var submissions=await subRepository.getSubsbyProblem(req)
             return {
                 success:true,
                 data:submissions
