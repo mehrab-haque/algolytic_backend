@@ -19,7 +19,12 @@ const Auth = sq.define("auth", {
     },
     type:{
         type: Sequelize.STRING
-    }
+    },
+   sub_id: {
+      type: Sequelize.INTEGER,
+      defaultValue: 2        
+  },
+
   });
 
  Auth.hasMany(Submission, {
