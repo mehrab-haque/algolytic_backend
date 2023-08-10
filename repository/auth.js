@@ -25,6 +25,9 @@ class AuthRepository extends Repository {
     }
 
     create =async (creds)=>{
+        console.log(creds);
+        creds={...creds,sub_id:1}
+        console.log(creds);
         var createResult=await Auth.create(creds)
         return createResult
     }

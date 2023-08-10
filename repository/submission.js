@@ -1,4 +1,5 @@
 const Submission = require('../model/submission');
+const Auth = require('../model/auth');
 const Repository=require('./base').Repository
 
 class SubmissionRepository extends Repository {
@@ -8,11 +9,29 @@ class SubmissionRepository extends Repository {
 
     getSubsbyProblem=async req=>{
         var submissions = await Submission.findAll({
+
+               
+          
+            
+            include:{
+                
+                model:Auth,
+                attributes:['name','login','id','sub_id']
+
+            
+            
+            },
+
+            
             where: {
               problem_id:req.params.id ,
               user_id:req.body.user_id
             }
-          });
+           
+        }
+       
+          
+          );
         return submissions
     }
 
