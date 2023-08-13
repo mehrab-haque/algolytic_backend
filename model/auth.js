@@ -36,9 +36,5 @@ const Auth = sq.define("auth", {
 
 });
 
- 
-  Auth.sync({alter:true}).catch(err=>{
-    console.log(err)
-  })
 
   module.exports = Auth;

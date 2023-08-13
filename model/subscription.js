@@ -36,8 +36,4 @@ const Subscription = sq.define("subscription", {
 //     });
 
 
-  Subscription.sync({alter:true}).catch(err=>{
-    console.log(err)
-  })
-
   module.exports = Subscription;
