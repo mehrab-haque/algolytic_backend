@@ -45,10 +45,4 @@ const Problem = sq.define("problem", {
 
   
 
-
-
-  Problem.sync({alter:true}).catch(err=>{
-    console.log(err)
-  })
-
   module.exports = Problem;

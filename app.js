@@ -7,6 +7,9 @@ const authRoutes=require('./routes/auth')
 const problemRoutes=require('./routes/interviewee/problem')
 const tagRoutes=require('./routes/interviewee/tag')
 const subRoutes=require('./routes/interviewee/subscription')
+
+require('./model/sync')
+
 const app = express();
 app.use(cors());
 app.use(express.json());
