@@ -34,7 +34,8 @@ class ProblemController extends Controller{
     }
 
     getSubmissionsbyProblemId=async (req,res)=>{
-        var result=await problemService.getSubmissionsbyProblemId(req.params.id)
+        console.log("new",req.body['user_id'])
+        var result=await problemService.getSubmissionsbyProblemId(req)
         return res.status(200).json(result)
     }    
 

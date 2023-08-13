@@ -123,9 +123,9 @@ class ProblemService extends Service {
     //     return problems;
     }
 
-    getSubmissionsbyProblemId =async (id)=>{
+    getSubmissionsbyProblemId =async (req)=>{
         try{
-            var submissions=await subRepository.getSubsbyProblem(id)
+            var submissions=await subRepository.getSubsbyProblem(req)
             return {
                 success:true,
                 data:submissions
@@ -250,23 +250,43 @@ class ProblemService extends Service {
             })
 
             compilerResponse=compilerResponse.data
+           console.log(compilerResponse)
+           var obj={}
+           if(compilerResponse.output.includes("error:")){
+            obj= {success:true,verdict:false,message:compilerResponse.output.split('error:')[1]}
 
-            if(compilerResponse.output.includes('SyntaxError')){
-                return {success:true,verdict:false,message:'Syntax Error'}
+           }
+          else if(compilerResponse.output.includes('SyntaxError')){
+                obj= {success:true,verdict:false,message:'Syntax Error'}
             }else if(compilerResponse.output.includes('JDoodle - output Limit reached'))
-                return {success:true,verdict:false,message:'Output Limit Reached'}
+                obj= {success:true,verdict:false,message:'Output Limit Reached'}
             else if(compilerResponse.output.includes('JDoodle - Timeout'))
-                return {success:true,verdict:false,message:'Time Limit Error'}
+                obj ={success:true,verdict:false,message:'Time Limit Error'}
+            else{
+                obj= {success:true,verdict:false,message:'Output Mismatch'} 
+            }
 
 
             var verdict=!isError?`${compilerResponse.output.trim()}`===`${output.trim()}`:false;
-            
+            obj['verdict']=verdict
+            try{
+                var pr=await subRepository.postSubmission({problem_id,user_id,code,lang,verdict})
+                
+                return obj
 
-            return {success:true,verdict:verdict,message:verdict?'':'Output Mismatch'}
+    
+            }catch(e){
+                console.log(e)
+                return {
+                    success:false
+                }
+            }
 
+
+          
         }catch(err){
             console.log(err)
-            return {success:true,verdict:false}
+            return {success:false,verdict:false}
         }
         
 

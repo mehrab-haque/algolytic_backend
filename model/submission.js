@@ -1,5 +1,7 @@
 const { sq } = require("../repository/base");
 const { DataTypes, Sequelize } = require("sequelize");
+const Problem=require('./problem')
+const Auth=require('./auth')
 
 const Submission = sq.define("submission", {
     submission_id: {
@@ -7,12 +9,8 @@ const Submission = sq.define("submission", {
         autoIncrement: true,
         primaryKey: true
     },
-    user_id: {
-        type: Sequelize.INTEGER
-    },
-    problem_id: {
-        type: Sequelize.INTEGER
-    },
+ 
+
     verdict: {
         type: Sequelize.STRING
     },
@@ -24,12 +22,48 @@ const Submission = sq.define("submission", {
     },
     language:{
         type: Sequelize.STRING
-    }   ,
+    }   
     
 
   });
+ 
+  Problem.hasMany(Submission,{
 
-  Submission.sync().catch(err=>{
+foreignKey:'problem_id',
+onDelete:'CASCADE'
+
+  });
+      
+Submission.belongsTo(Problem,{
+    
+foreignKey:'problem_id',
+onDelete:'CASCADE'
+
+}); 
+
+ Auth.hasMany(Submission,{
+
+    foreignKey:'user_id',
+    onDelete:'CASCADE'
+    
+      });
+                 
+
+Submission.belongsTo(Auth,{
+
+    foreignKey:'user_id',
+onDelete:'CASCADE'
+  });  
+
+
+ 
+    
+
+   
+
+
+
+  Submission.sync({alter:true}).catch(err=>{
     console.log(err)
   })
 

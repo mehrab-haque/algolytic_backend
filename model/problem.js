@@ -1,6 +1,8 @@
 const { sq } = require("../repository/base");
 const { DataTypes, Sequelize } = require("sequelize");
 
+
+
 const Problem = sq.define("problem", {
     problem_id: {
         type: Sequelize.INTEGER,
@@ -19,9 +21,7 @@ const Problem = sq.define("problem", {
     author_id: {
         type: Sequelize.STRING         
     },
-    creation_time:{
-        type: Sequelize.DATE
-    },
+
     response_time:{
         type: Sequelize.INTEGER
     },
@@ -43,7 +43,11 @@ const Problem = sq.define("problem", {
 
   });
 
-  Problem.sync(/*{force:true}*/).catch(err=>{
+  
+
+
+
+  Problem.sync({alter:true}).catch(err=>{
     console.log(err)
   })
 
