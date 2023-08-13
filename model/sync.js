@@ -1,3 +1,4 @@
+const { initializeAll } = require('../repository/initialize')
 const Auth=require('./auth')
 const Problem=require('./problem')
 const Submission=require('./submission')
@@ -16,6 +17,8 @@ const syncAll=async ()=>{
         console.log('problem model synced')
         await Submission.sync({alter:true})
         console.log('submission model synced')
+
+        await initializeAll()
     }catch(err){
         console.log(err)
     }
