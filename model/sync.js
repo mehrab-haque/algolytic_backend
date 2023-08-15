@@ -4,6 +4,7 @@ const Problem=require('./problem')
 const Submission=require('./submission')
 const Subscription=require('./subscription')
 const Tag=require('./tag')
+const Solution=require("./solution")
 
 const syncAll=async ()=>{
     try{
@@ -17,8 +18,9 @@ const syncAll=async ()=>{
         console.log('problem model synced')
         await Submission.sync({alter:true})
         console.log('submission model synced')
-
-        await initializeAll()
+        await Solution.sync({alter:true})
+        console.log('solution model synced')
+       // await initializeAll()
     }catch(err){
         console.log(err)
     }

@@ -15,7 +15,7 @@ const Submission = sq.define("submission", {
         type: Sequelize.STRING
     },
     solution: {
-        type: Sequelize.STRING         
+        type: Sequelize.STRING(5000)         
     },
     submission_time:{
         type: Sequelize.DATE
