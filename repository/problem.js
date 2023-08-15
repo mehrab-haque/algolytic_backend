@@ -15,7 +15,7 @@ class ProblemRepository extends Repository {
         return problems
     }
     getSolutions=async (id)=>{
-      var sols = await Solution.findAll({where:{problem_id:id}});
+      var sols = await Solution.findAll({where:{problem_id:id},include:Problem});
       return sols
   }
     getStats=async(user_id)=>{
