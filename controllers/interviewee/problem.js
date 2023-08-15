@@ -13,11 +13,19 @@ class ProblemController extends Controller{
         return res.status(200).json(result)
     }
 
+    getSolutions=async (req,res)=>{
+        var result=await problemService.getSolutions(req.params.id)
+        return res.status(200).json(result)
+    }
+
     create=async (req,res)=>{
         var result=await problemService.create(req.body)
         return res.status(200).json(result)
     }
-
+    createSolution=async (req,res)=>{
+        var result=await problemService.createSolution(req.body)
+        return res.status(200).json(result)
+    }
     delete=async (req,res)=>{
         var result=await problemService.delete(req.params.id)
         return res.status(200).json(result)

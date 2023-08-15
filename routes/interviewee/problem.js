@@ -12,7 +12,8 @@ router.route("/delete/:id").delete(authenticateAdmin,problemController.delete);
 router.route("/get/:id").get(problemController.get);
 router.route("/submit").post(authenticateRegularUser,problemController.submit);
 router.route("/submissions/:id").get(authenticateRegularUser,problemController.getSubmissionsbyProblemId);
-router.route("/submissionstats").post(authenticateRegularUser,problemController.getSubmissionStats);
+router.route("/submissionstats").get(authenticateRegularUser,problemController.getSubmissionStats);
 router.route("/filter").get(problemController.getFilteredProblems);
-
+router.route("/solution/create").post(problemController.createSolution);
+router.route("/solutions/:id").get(authenticateRegularUser,problemController.getSolutions);
 module.exports=router

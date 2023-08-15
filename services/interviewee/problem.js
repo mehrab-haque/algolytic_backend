@@ -1,8 +1,9 @@
 const axios=require('axios')
 const Service = require('../base').Service;
+const sequelize = require('sequelize');
 const ProblemRepository=require('../../repository/problem').ProblemRepository
 const SubmissionRepository=require('../../repository/submission').SubmissionRepository
-
+const Problem=require('../../model/problem')
 const problemRepository=new ProblemRepository()
 const subRepository=new SubmissionRepository()
 class ProblemService extends Service {
@@ -25,20 +26,37 @@ class ProblemService extends Service {
                 success:false,
             }
         }
-    //     var query=`
-    //         SELECT * FROM problem
-    //         WHERE is_live = true  
-    //         ${Object.keys(filter).indexOf('difficulty')>=0?`and difficulty = '${filter.difficulty.toLowerCase()}'`:''}
-    //         ${Object.keys(filter).indexOf('is_premium')>=0?`and is_premium = ${filter.is_premium}`:''}
-    //         ${Object.keys(filter).indexOf('tag')>=0?`and tag = '${filter.tag}'`:''}
-    //         ${Object.keys(filter).indexOf('search')>=0?`and LOWER(title) LIKE '%${filter.search.toLowerCase()}%'`:''}
-    //     `;
-    //    var params=[] 
-    //    var problems=await this.query(query,params);
-    //    problems.data=problems.data.map((p,i)=>{return {...p,status:i%2}})
-    //     return problems;
-    }
 
+    }
+    getSolutions =async (id)=>{
+
+        try{
+            var sols=await problemRepository.getSolutions(id)
+            return {
+                success:true,
+                data:sols
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+
+//     var query=`
+//         SELECT * FROM problem
+//         WHERE is_live = true  
+//         ${Object.keys(filter).indexOf('difficulty')>=0?`and difficulty = '${filter.difficulty.toLowerCase()}'`:''}
+//         ${Object.keys(filter).indexOf('is_premium')>=0?`and is_premium = ${filter.is_premium}`:''}
+//         ${Object.keys(filter).indexOf('tag')>=0?`and tag = '${filter.tag}'`:''}
+//         ${Object.keys(filter).indexOf('search')>=0?`and LOWER(title) LIKE '%${filter.search.toLowerCase()}%'`:''}
+//     `;
+//    var params=[] 
+//    var problems=await this.query(query,params);
+//    problems.data=problems.data.map((p,i)=>{return {...p,status:i%2}})
+//     return problems;
+}
     create =async (problem)=>{
         try{
             var pr=await problemRepository.create(problem)
@@ -63,6 +81,22 @@ class ProblemService extends Service {
     //    var res=await this.query(query,params);
     //     return res
     }
+
+    createSolution =async (solution)=>{
+        try{
+            var sol=await problemRepository.createSolution(solution)
+            return {
+                success:true,
+                data:sol
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+        }
 
     delete =async (id)=>{
         try{
@@ -171,6 +205,22 @@ class ProblemService extends Service {
     }
 
     getSubmissionStats=async ({user_id})=>{
+        try{
+            var stats=await problemRepository.getStats(user_id)
+         
+            return {
+                success:true,
+                data:stats
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+       
+
         // var query=`
         //     select count(distinct p.id), p.difficulty
         //     from submission s, problem p

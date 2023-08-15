@@ -1,5 +1,9 @@
 const Problem = require('../model/problem');
 const Repository=require('./base').Repository
+// const Problem=require('../model/problem')
+const sequelize = require('sequelize');
+const Submission = require('../model/submission');
+const Solution = require('../model/solution');
 
 class ProblemRepository extends Repository {
     constructor() {
@@ -10,7 +14,67 @@ class ProblemRepository extends Repository {
         var problems = await Problem.findAll();
         return problems
     }
+    getSolutions=async (id)=>{
+      var sols = await Solution.findAll({where:{problem_id:id}});
+      return sols
+  }
+    getStats=async(user_id)=>{
 
+
+        try{
+        const result=await Submission.findAll({
+            attributes: [
+              [
+                sequelize.literal('COUNT(DISTINCT "problem"."problem_id")'),
+                'distinct_count'
+              ],
+              [sequelize.col('problem.difficulty'), 'difficulty']
+            ],
+            include: [
+              {
+                model: Problem,
+                as: 'problem',
+                required: true
+              }
+            ],
+            where: {
+              verdict: "true",
+              user_id: user_id
+            },
+            group: [
+        
+                sequelize.col('"problem"."difficulty"') ,
+            sequelize.col('"problem"."problem_id"') 
+        ]
+          })
+
+          const difficultyCounts = {"easy":0,"medium":0,"hard":0};
+
+          // Loop through the JSON data and count the occurrences of each difficulty level
+          result.forEach(item => {
+            console.log(item)
+            const difficulty = item.dataValues.difficulty;
+            if (difficultyCounts[difficulty]) {
+              difficultyCounts[difficulty]++;
+            } else {
+              difficultyCounts[difficulty] = 1;
+            }
+          });
+          
+          // Print the difficulty counts
+        
+
+          return  difficultyCounts;
+        }
+        catch(error) {
+              console.error(error);
+            
+            };
+
+        
+
+    }
+    
     getFilteredProblems=async (query)=>{
 
         var fields=['isPremium','tag','difficulty']
@@ -51,7 +115,16 @@ class ProblemRepository extends Repository {
         return pr
     }
 
+    createSolution=async solution=>{
+      const pr = Solution.create({
+          problem_id:solution.problem_id,
+          language:solution.language,
+          solution:solution.solution
     
+          
+      })
+      return pr
+  }
 
 }
 

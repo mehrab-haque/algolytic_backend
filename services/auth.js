@@ -37,7 +37,21 @@ class AuthService extends Service {
         }
 
     }
+    status =async (data)=>{
+        try{
+            var status=await authRepository.status(data)
+            return {
+                success:true,
+                data:status
+            }
 
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+    }
     login=async creds=>{
         const lookupResult=await authRepository.getUserByLogin(creds.login)
         if(lookupResult.length===0){

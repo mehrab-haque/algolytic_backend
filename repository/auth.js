@@ -23,6 +23,16 @@ class AuthRepository extends Repository {
           })
         return searchResult
     }
+    status=async (body)=>{
+      var searchResult=await Auth.findAll({
+          where: {
+            id:body.user_id
+          },
+          attributes:['sub_id']
+        })
+      return searchResult
+  }
+
 
     create =async (creds)=>{
         console.log(creds);
