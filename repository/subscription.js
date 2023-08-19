@@ -12,6 +12,11 @@ class SubRepository extends Repository {
         return subs
     }
 
+    getById=async (id)=>{
+        var sub=await Sub.findByPk(id)
+        return sub
+    }
+
     create=async data=>{
         const sub = Sub.create({
             title:data.title,
@@ -24,15 +29,10 @@ class SubRepository extends Repository {
     }
     subscribe=async data=>{
         const sub = Auth.update({
-            
             sub_id:data.sub_id
-
-
         },
-        
         {
             where:{
-
                 id:data.user_id
             }
         })

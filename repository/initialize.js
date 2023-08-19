@@ -19,8 +19,12 @@ const initializeSubscriptions=async ()=>{
 }
 
 const initializeAll=async ()=>{
-    await initializeSubscriptions()
-    console.log("Default subscription schemes initialized...")
+    try{
+        await initializeSubscriptions()
+        console.log("Default subscription schemes initialized...")
+    }catch(err){
+        console.log("Default subscription schemes already exist...")
+    }
 }
 
 module.exports={initializeAll}

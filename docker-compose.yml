@@ -13,6 +13,9 @@ services:
       - DB_DB=algolytic_db
       - PORT=4000
       - JWT_SECRET=abracadabra
+      - STORE_ID=brain64e06458586b5
+      - STORE_PASSWORD=brain64e06458586b5@ssl
+      - IPN_URL=http://43.224.110.132/api/v1.0.0/payment/ipn
 
     ports:
       - 4000:4000
