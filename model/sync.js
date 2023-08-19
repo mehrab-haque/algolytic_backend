@@ -5,6 +5,7 @@ const Submission=require('./submission')
 const Subscription=require('./subscription')
 const Tag=require('./tag')
 const Solution=require("./solution")
+const Peer=require('./peer')
 
 const syncAll=async ()=>{
     try{
@@ -20,7 +21,10 @@ const syncAll=async ()=>{
         console.log('submission model synced')
         await Solution.sync({alter:true})
         console.log('solution model synced')
-       // await initializeAll()
+
+        await Peer.sync({alter:true})
+         console.log('peer model synced')
+     //   await initializeAll()
     }catch(err){
         console.log(err)
     }
