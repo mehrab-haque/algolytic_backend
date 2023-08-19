@@ -10,7 +10,25 @@ class RecommendationController extends Controller{
     }
 
     systemgeneratedlist=async (req,res)=>{
-        var result=await recommendationService.systemgeneratedlist()
+        // console.log("new",req.body['user_id'])
+        var result=await recommendationService.systemgeneratedlist(req)
+        return res.status(200).json(result)
+    }
+
+    peerlist=async (req,res)=>{
+        // console.log("new",req.body['user_id'])
+        var result=await recommendationService.peerlist(req)
+        return res.status(200).json(result)
+    }
+
+    userlist=async (req,res)=>{
+        // console.log("new",req.body['user_id'])
+        var result=await recommendationService.userlist(req)
+        return res.status(200).json(result)
+    }
+
+    recommendpblm=async (req,res)=>{
+        var result=await recommendationService.recommendpblm(req)
         return res.status(200).json(result)
     }
 

@@ -40,6 +40,9 @@ const Problem = sq.define("problem", {
     },
     acceptance:{
         type: Sequelize.STRING
+    },
+    rating:{
+        type: Sequelize.INTEGER
     }
 
   });
