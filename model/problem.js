@@ -3,6 +3,7 @@ const { DataTypes, Sequelize } = require("sequelize");
 
 
 
+
 const Problem = sq.define("problem", {
     problem_id: {
         type: Sequelize.INTEGER,
