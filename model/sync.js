@@ -21,13 +21,16 @@ const syncAll=async ()=>{
         console.log('submission model synced')
         await Solution.sync({alter:true})
         console.log('solution model synced')
-
         await Peer.sync({alter:true})
-         console.log('peer model synced')
-     //   await initializeAll()
+        console.log('peer model synced')
+
+        await initializeAll()
     }catch(err){
         console.log(err)
     }
 }
 
-// syncAll()
+
+ syncAll()
+
+

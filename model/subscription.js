@@ -9,7 +9,8 @@ const Subscription = sq.define("subscription", {
         primaryKey: true
     },
     title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
     },
     fee: {
         type: Sequelize.STRING
