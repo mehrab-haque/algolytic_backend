@@ -3,6 +3,7 @@ const Auth = require('../model/auth');
 const Problem = require('../model/problem');
 const Peer = require('../model/peer');
 const Repository=require('./base').Repository
+const Op = require('sequelize').Op;
 
 class RecommendationRepository extends Repository {
     constructor() {
@@ -20,8 +21,14 @@ class RecommendationRepository extends Repository {
                 where: {
                     to:req.body["user_id"]             
                   },
-                  include:Problem
-            }            
+                  include:
+
+                    {
+                        model:Problem
+                    }
+                 
+                  
+                  }     
         );
         return problems
     }
@@ -29,8 +36,10 @@ class RecommendationRepository extends Repository {
     getUserList=async (req)=>{
         var users = await Auth.findAll(
             {                
-                attributes: ['name', 'login','id']
+                attributes: ['name', 'login','id'],
+                where:{id:{[Op.ne]:req.body['user_id']}}
             }
+
         );
         return users
     }

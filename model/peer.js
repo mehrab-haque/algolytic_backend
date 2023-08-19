@@ -2,6 +2,7 @@ const { sq } = require("../repository/base");
 const Problem =require('./problem')
 const { DataTypes, Sequelize } = require("sequelize");
 
+
 const Peer = sq.define("peer", {
     peer_id: {
         type: Sequelize.INTEGER,
