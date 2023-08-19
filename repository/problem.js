@@ -109,7 +109,8 @@ class ProblemRepository extends Repository {
             logo:problem.logo,
             tag:problem.tag,
             difficulty:problem.difficulty,
-            acceptance:problem.acceptance
+            acceptance:problem.acceptance,
+            rating: problem.rating
             
         })
         return pr
