@@ -8,6 +8,7 @@ const problemRoutes=require('./routes/interviewee/problem')
 const tagRoutes=require('./routes/interviewee/tag')
 const subRoutes=require('./routes/interviewee/subscription')
 const recommendationRoutes=require('./routes/interviewee/recommendation')
+const { SSLCommerzRouter } = require('./routes/interviewee/payment');
 
 require('./model/sync')
 
@@ -27,5 +28,6 @@ app.use('/api/v1.0.0/problem', problemRoutes);
 app.use('/api/v1.0.0/tag', tagRoutes);
 app.use('/api/v1.0.0/subscription', subRoutes);
 app.use('/api/v1.0.0/recommendation', recommendationRoutes);
+app.use('/api/v1.0.0/payment', SSLCommerzRouter);
 
 module.exports = {app};
