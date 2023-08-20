@@ -50,9 +50,9 @@ class SubService extends Service {
                     total_amount: amount.toFixed(2),
                     currency: 'BDT',
                     tran_id: 'REF123', // use unique tran_id for each api call
-                    success_url: `http://localhost:4000/subscription`,
-                    fail_url: 'http://localhost:4000/subscription',
-                    cancel_url: 'http://localhost:4000/subscription',
+                    success_url: `${process.env.POST_PAYMENT_URL}/success`,
+                    fail_url: `${process.env.POST_PAYMENT_URL}/failure`,
+                    cancel_url: `${process.env.POST_PAYMENT_URL}/cancel`,
                     ipn_url: process.env.IPN_URL,
                     shipping_method: 'Courier',
                     product_name : subData.title,

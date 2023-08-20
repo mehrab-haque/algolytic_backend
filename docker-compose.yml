@@ -16,6 +16,7 @@ services:
       - STORE_ID=brain64e06458586b5
       - STORE_PASSWORD=brain64e06458586b5@ssl
       - IPN_URL=http://43.224.110.132/api/v1.0.0/payment/ipn
+      - POST_PAYMENT_URL=http://43.224.110.132/post-payment
 
     ports:
       - 4000:4000
