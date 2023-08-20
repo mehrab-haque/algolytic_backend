@@ -59,7 +59,7 @@ class RecommendationService extends Service {
                 
             }
 
-            console.log(final_pblms)
+            // console.log(final_pblms)
 
 
             return {
