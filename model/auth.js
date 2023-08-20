@@ -36,8 +36,8 @@ const Auth = sq.define("auth", {
  
 
 });
+
 Auth.belongsToMany(Auth,{as: 'children', foreignKey: 'from' , through: Peer });
 Auth.belongsToMany(Auth,{as: 'parent', foreignKey: 'to' , through: Peer });
-
 
   module.exports = Auth;
