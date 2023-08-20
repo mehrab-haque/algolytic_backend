@@ -6,9 +6,9 @@ const docs = require('./docs')
 const authRoutes=require('./routes/auth')
 const problemRoutes=require('./routes/interviewee/problem')
 const tagRoutes=require('./routes/interviewee/tag')
+const { SSLCommerzRouter } = require('./routes/interviewee/payment');
 const subRoutes=require('./routes/interviewee/subscription')
 const recommendationRoutes=require('./routes/interviewee/recommendation')
-const { SSLCommerzRouter } = require('./routes/interviewee/payment');
 
 require('./model/sync')
 
