@@ -1,8 +1,10 @@
 const Service = require('../base').Service;
 const SubRepository=require('../../repository/subscription').SubRepository
-const SSLCommerzPayment = require('sslcommerz-lts')
+const SSLCommerzPayment = require('sslcommerz-lts');
+const { setSubscriptionPayload } = require('../../routes/interviewee/payment');
 
 const subRepository=new SubRepository()
+
 
 class SubService extends Service {
     constructor() {
@@ -42,7 +44,7 @@ class SubService extends Service {
     }
     subscribe =async (data)=>{
         try{
-            if(data.sub_id>1){
+            //if(data.sub_id>1){
                 var subData=await subRepository.getById(data.sub_id)
                 subData=subData.get({ plain: true })
                 var amount=parseInt(subData.fee.split('$')[1])*110
@@ -79,15 +81,19 @@ class SubService extends Service {
                 };
                 const sslcz = new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD, false);
                 var apiResponse=await sslcz.init(pgwData)
+                setSubscriptionPayload({
+                    user_id:data.user_id,
+                    sub_id:data.sub_id,
+                    sessionKey:apiResponse.sessionkey
+                })
                 return {
                     success:true,
                     data: apiResponse.GatewayPageURL
                 }
               
-            }else{
+            // }else{
                 
-            }
-            //var sub=await subRepository.subscribe(data)
+            // }
             
 
         }catch(e){
