@@ -1,6 +1,7 @@
 const { sq } = require("../repository/base");
 const { DataTypes, Sequelize } = require("sequelize");
 const Subscription=require('./subscription')
+const Peer=require('./peer')
 const Auth = sq.define("auth", {
     id: {
         type: Sequelize.INTEGER,
@@ -36,5 +37,7 @@ const Auth = sq.define("auth", {
 
 });
 
+Auth.belongsToMany(Auth,{as: 'children', foreignKey: 'from' , through: Peer });
+Auth.belongsToMany(Auth,{as: 'parent', foreignKey: 'to' , through: Peer });
 
   module.exports = Auth;

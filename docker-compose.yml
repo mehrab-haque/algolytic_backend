@@ -6,13 +6,17 @@ services:
       dockerfile: Dockerfile
     environment:
       - DB_TYPE=postgres
-      - DB_USER=root
-      - DB_PASS=passWord123$$$$$$
-      - DB_HOST=algolyticdb.cy07c5le73ah.ap-south-1.rds.amazonaws.com
+      - DB_USER=rabib
+      - DB_PASS=LjpfKA0TwrgL6kcmbDeNWhHDrR1M6z44
+      - DB_HOST=dpg-cjfr2cfr2b1s73dirfkg-a.singapore-postgres.render.com
       - DB_PORT=5432
-      - DB_DB=postgres
+      - DB_DB=algolytic_db
       - PORT=4000
       - JWT_SECRET=abracadabra
+      - STORE_ID=brain64e06458586b5
+      - STORE_PASSWORD=brain64e06458586b5@ssl
+      - IPN_URL=http://43.224.110.132/api/v1.0.0/payment/ipn
+      - POST_PAYMENT_URL=http://43.224.110.132/post-payment
 
     ports:
       - 4000:4000

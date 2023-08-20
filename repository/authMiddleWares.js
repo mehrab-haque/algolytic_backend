@@ -17,16 +17,14 @@ var authenticateAdmin=(req, res, next)=>{
 }
 
 var authenticateRegularUser=(req, res, next)=>{
-    console.log(req.headers
-        )
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
-    console.log(token)
     if (token == null) return res.sendStatus(401)
     try{
         var decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.body['user_id']=decoded.id
-        console.log(decoded.id)
+        req.body['user_name']=decoded.name
+        req.body['user_email']=decoded.login
         if(decoded.type===userTypeMapping.USER_TYPE_REGULAR)
             next()
         else return res.sendStatus(401)
