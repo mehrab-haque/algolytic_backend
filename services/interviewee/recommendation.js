@@ -25,7 +25,7 @@ class RecommendationService extends Service {
             let p=[]
             let dict={}
             for (let index = 0; index < problems.length; index++) {
-                p.push(problems[index].get({plain:true}))          
+                p.push(problems[index].get({plain:true}))         
 
                 
             }
@@ -110,6 +110,39 @@ class RecommendationService extends Service {
     recommendpblm =async (recommendation)=>{
         try{
             var data=await recommendationRepository.createRecommendation(recommendation)
+            return {
+                success:true,
+                data:data
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+          
+    }
+
+    dummylist =async (req)=>{
+        try{
+            var data=await recommendationRepository.getDummys(req)
+            return {
+                success:true,
+                data:data
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+    }
+
+    createDummy =async (dummy)=>{
+        try{
+            var data=await recommendationRepository.createDummy(dummy)
             return {
                 success:true,
                 data:data

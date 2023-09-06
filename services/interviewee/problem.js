@@ -184,6 +184,12 @@ class ProblemService extends Service {
         console.log(query)
         try{
             var problems=await problemRepository.getFilteredProblems(query)
+            
+                
+                
+            
+
+
             return {
                 success:true,
                 data:problems

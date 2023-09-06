@@ -4,16 +4,84 @@ const Problem = require('../model/problem');
 const Dummy = require('../model/dummy');
 const Peer = require('../model/peer');
 const Repository=require('./base').Repository
+const Test=require('../model/test')
+const TestProblem=require('../model/testproblem')
+const TestTag=require('../model/testtag')
 const Op = require('sequelize').Op;
+const Sequelize=require('sequelize')
 
-class RecommendationRepository extends Repository {
+class MocktestRepository extends Repository {
     constructor() {
         super();
     }
 
-    getAll=async (req)=>{
-        var problems = await Problem.findAll();
+    getTestProblems=async (req)=>{
+        var problems = await TestProblem.findAll(
+            {
+                where: {
+                    testid:req.params.id            
+                  },
+                  include:{
+                    model:Problem,
+                    through: { attributes: [] }
+                    }               
+                  
+                  }     
+        );
         return problems
+    }
+
+    getProblemsbyTag=async (req)=>{
+
+        var users = await Problem.findAll(
+            {                
+                attributes: ['problem_id'],
+                where:  Sequelize.or(
+                    { tag: req.body["tags"] },
+                    
+                    )
+            }
+
+        );
+        return users
+    }
+
+    createTest=async (test)=>{
+
+        const result = Test.create({
+            id: test.body["user_id"]
+            
+        })
+        
+        return result
+    }
+
+    createTestProblems=async (test,problems)=>{
+
+        for (let index = 0; index < problems.length; index++) {
+
+            const rec = TestProblem.create({
+                testid:test.body["test_id"],
+                problemid:problems[index]
+                
+            })          
+        }
+        
+        return {success : true}
+    }
+
+    createTestTags=async (tagids,test_id)=>{
+
+        for (let index = 0; index < tagids.length; index++) {
+
+            const rec = TestTag.create({
+                testid:test_id,
+                tagid:tagids[index]
+                
+            })          
+        }
+        
+        return {success : true}
     }
 
     getPeerList=async (req)=>{
@@ -121,4 +189,4 @@ class RecommendationRepository extends Repository {
 
 }
 
-module.exports = {RecommendationRepository}
+module.exports = {MocktestRepository}

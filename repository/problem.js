@@ -84,8 +84,12 @@ class ProblemRepository extends Repository {
             if(query[f])
                 queryObj[f]=query[f]
         })
+        console.log(queryObj)
         
-        var problems = await Problem.findAll({where:queryObj });
+        var problems = await Problem.findAll(
+          {where:queryObj }
+          
+          );
         return problems
     }
     
