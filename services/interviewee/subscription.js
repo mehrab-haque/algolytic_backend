@@ -25,8 +25,8 @@ const transporter = nodemailer.createTransport({
   secure: true, // Use SSL/TLS
   service: 'SMTP', // use your SMTP service provider (e.g., 'Gmail', 'Yahoo', etc.)
   auth: {
-    user: 'kingphisher@hiredo.net', // your email address
-    pass: 'passWord123$$$', // your email password or application-specific password
+    user:process.env.SMTP_USER, // your email address
+    pass: process.env.SMTP_PASS, // your email password or application-specific password
   },
 });
 
