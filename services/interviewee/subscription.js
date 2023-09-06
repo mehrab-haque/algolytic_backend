@@ -2,10 +2,46 @@ const Service = require('../base').Service;
 const SubRepository=require('../../repository/subscription').SubRepository
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { setSubscriptionPayload } = require('../../routes/interviewee/payment');
+const csv = require('csv-parser');
+const bcrypt=require('bcryptjs')
+const JWT = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const fs = require('fs');
+const {register}=require("../auth");
+const { AuthRepository } = require('../../repository/auth');
+const { userTypeMapping } = require('../../config/constants');
+
 
 const subRepository=new SubRepository()
 
+const authRepository=new AuthRepository()
 
+
+
+// Create a transporter object using the default SMTP transport
+const transporter = nodemailer.createTransport({
+    host: 'smtp.zoho.com',
+  port: 465, // Use port 465 for secure (SSL/TLS) connection
+  secure: true, // Use SSL/TLS
+  service: 'SMTP', // use your SMTP service provider (e.g., 'Gmail', 'Yahoo', etc.)
+  auth: {
+    user: 'kingphisher@hiredo.net', // your email address
+    pass: 'passWord123$$$', // your email password or application-specific password
+  },
+});
+
+
+function generateRandomPassword(length) {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let password = "";
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+  
+    return password;
+  }
 class SubService extends Service {
     constructor() {
         super();
@@ -42,12 +78,155 @@ class SubService extends Service {
             }
         }
     }
+     
+    
+    sendEmailAndProcessUser=async(recipient) =>{
+        if (!recipient.Email) return;
+        const mailOptions = {
+            from: 'kingphisher@hiredo.net', // Sender's email address
+            subject: 'Hello from AlgoLytic',
+            text: 'This is a test email sent from Node.js.',
+          };
+      
+        const lookupResult = await authRepository.checkIfLoginExists(recipient.Email);
+      
+        if (lookupResult) {
+          console.log("User exists");
+        } else {
+          const parts = recipient.Email.split('@');
+          let username;
+      
+          if (parts.length === 2) {
+            username = parts[0];
+            
+          } else {
+            console.log('Invalid email format');
+            return; // Skip processing this recipient
+          }
+      
+          const pass = generateRandomPassword(12);
+          const salt = await bcrypt.genSalt(10);
+          const hashedPass = await bcrypt.hash(pass, salt);
+          const insertResult = await authRepository.create({ name: username, login: recipient.Email, password: hashedPass, type: userTypeMapping.USER_TYPE_REGULAR });
+          
+          // Handle subscription logic here
+          const r = await subRepository.subscribeByLogin(recipient.Email, 3);
+      
+          mailOptions.to = recipient.Email;
+          mailOptions.text = 'Your institutional subscription has been activated. Your password is ' + pass;
+      
+          const emailResult = await new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                console.error(`Error sending email to ${recipient.Email}:`, error);
+                reject(error);
+              } else {
+                console.log(`Email sent to ${recipient.Email}:`, info.response);
+                resolve(info.response);
+              }
+            });
+          });
+      
+          // Handle any additional logic after sending the email
+        }
+      }
+    processCSV =async (fileBuffer)=>{
+
+
+try{
+        
+        const results = [];
+     
+    const resultss=    await new Promise((resolve, reject) => {
+          
+          
+            csv({ separator: '\t' })
+            .on('data', async(data) => {
+                
+                results.push(data); 
+                        
+
+resolve({
+
+    success:true,
+    data:"Csv successfully parsed"
+})
+                    
+                
+                
+                
+               
+            
+
+                    
+                })
+
+               
+            .on('end', async() => {
+                resolve("ss")
+
+             
+            
+            })
+            .on('error', (error) => {
+              reject({success:false,data:"Error occured"});
+            })
+            .write(fileBuffer);
+        }
+        
+        
+   
+        );
+        if(resultss.success){
+
+            try {
+                // Use Promise.all to process emails for all rows collectively
+               const ress= await Promise.all(results.map((r) => this.sendEmailAndProcessUser(r)))
+           
+               console.log("All emails processed successfully");
+ 
+                return{
+                  success: true,
+                  data: "All emails processed successfully",
+                };
+              } catch (error) {
+                console.error("Error processing emails:", error);
+                reject(error);
+                return{
+                  success: false,
+                  data: "Error processing emails",
+                };
+              
+        }
+    
+}
+}catch(e){
+    console.log(e)
+    return {
+        success:false,
+        data:"error"
+    }
+}
+
+       
+         
+        // results.forEach(res=>{
+
+
+
+
+        // })
+      
+    }
+   
     subscribe =async (data)=>{
+   
         try{
             //if(data.sub_id>1){
                 var subData=await subRepository.getById(data.sub_id)
                 subData=subData.get({ plain: true })
                 var amount=parseInt(subData.fee.split('$')[1])*110
+             
                 var pgwData = {
                     total_amount: amount.toFixed(2),
                     currency: 'BDT',
@@ -86,6 +265,7 @@ class SubService extends Service {
                     sub_id:data.sub_id,
                     sessionKey:apiResponse.sessionkey
                 })
+                console.log(apiResponse.GatewayPageURL)
                 return {
                     success:true,
                     data: apiResponse.GatewayPageURL
