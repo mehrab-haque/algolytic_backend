@@ -17,10 +17,10 @@ class AuthService extends Service {
         return JWT.sign(user.get({ plain: true }), process.env.JWT_SECRET);
     }
 
-    register=async creds=>{
+ register=async creds=>{
 
         const lookupResult=await authRepository.checkIfLoginExists(creds.login)
-        console.log(lookupResult)
+      
         if(lookupResult){
             return {
                 success:false,
