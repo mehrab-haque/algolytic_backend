@@ -17,5 +17,6 @@ const mocktestController=new MocktestController()
 
 router.route("/testpblmlist/:id").get(authenticateRegularUser,mocktestController.getTestProblems);
 router.route("/createTest").post(authenticateRegularUser,mocktestController.createTest);
+router.route("/submitTest").post(authenticateRegularUser,mocktestController.submitTest);
 
 module.exports=router

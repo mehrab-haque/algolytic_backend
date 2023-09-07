@@ -12,7 +12,7 @@ class MocktestService extends Service {
 
     getTestProblems =async (req)=>{
         try{
-            var problems=await mocktestRepository.getProblemsbyTag(req)
+            var problems=await mocktestRepository.getTestProblems(req)
             return {
                 success:true,
                 data:problems
@@ -52,6 +52,49 @@ class MocktestService extends Service {
             return {
                 success:true,
                 data:selected_problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+          
+    }
+
+    submitTest =async (test)=>{
+        try{
+
+           let marks=0
+           var pids=await mocktestRepository.getTestProblems(test.body["id"])
+        //    console.log(pids)
+
+           for(let i=0;i<pids.length;i++){
+            var sub=await mocktestRepository.getTestSubmissions(pids[i].get({plain:true}).problemid,test.body["user_id"])
+            console.log(sub.r1[0].get({plain:true}).distinct_count)
+            let temp=0            
+            temp=sub.r1[0].get({plain:true}).distinct_count*10- sub.r2[0].get({plain:true}).count*1
+            if(temp<5 && sub.r1[0].get({plain:true}).distinct_count>0)temp=5
+            marks+=temp
+           }
+           console.log(marks)
+           
+        //    var sub=await mocktestRepository.getTestSubmissions(1,1)
+
+        //    let temp=0
+        //    console.log(sub.r1[0].get({plain:true}).distinct_count)
+        //    temp=sub.r1[0].get({plain:true}).distinct_count*10- sub.r2[0].get({plain:true}).count*1
+        //    if(temp<5)temp=5
+        //    console.log(temp)
+
+           var res=await mocktestRepository.submitTest(test.body["id"],marks)
+           
+            
+
+            return {
+                success:true,
+                data:sub
             }
 
         }catch(e){

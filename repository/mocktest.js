@@ -15,16 +15,16 @@ class MocktestRepository extends Repository {
         super();
     }
 
-    getTestProblems=async (req)=>{
+    getTestProblems=async (id)=>{
         var problems = await TestProblem.findAll(
             {
                 where: {
-                    testid:req.params.id            
-                  },
-                  include:{
-                    model:Problem,
-                    through: { attributes: [] }
-                    }               
+                    testid:id            
+                  }
+                //   include:{
+                //     model:Problem,
+                //     through: { attributes: [] }
+                //     }               
                   
                   }     
         );
@@ -52,6 +52,21 @@ class MocktestRepository extends Repository {
             id: test.body["user_id"]
             
         })
+        
+        return result
+    }
+
+    submitTest=async (id,test_marks)=>{
+
+        const result = Test.update( {
+            submission_time: Sequelize.literal('CURRENT_TIMESTAMP'), // Use CURRENT_TIMESTAMP for the current timestamp
+            marks: test_marks,
+          },
+          {
+            where: {
+              test_id: id,
+            },
+          })
         
         return result
     }
@@ -84,22 +99,51 @@ class MocktestRepository extends Repository {
         return {success : true}
     }
 
-    getPeerList=async (req)=>{
-        var problems = await Peer.findAll(
-            {
-                where: {
-                    to:req.body["user_id"]             
-                  },
-                  include:
+    getTestSubmissions=async(problem_id,user_id)=>{
 
-                    {
-                        model:Problem
-                    }                
-                  
-                  }     
-        );
-        return problems
-    }    
+
+        try{
+        const r1=await Submission.findAll({
+            attributes: [
+              [
+                Sequelize.literal('COUNT(DISTINCT "problem_id")'),
+                'distinct_count'
+              ]
+            ],           
+            where: {
+              verdict: "true",
+              user_id: user_id,
+              problem_id: problem_id
+            }
+           
+          })
+
+           const r2=await Submission.findAll({
+            attributes: [
+              [
+                Sequelize.literal('COUNT("problem_id")'),
+                'count'
+              ]
+            ],           
+            where: {
+              verdict: "false",
+              user_id: user_id,
+              problem_id: problem_id
+            }
+           
+          })
+
+          return {r1,r2}
+
+        }
+        catch(error) {
+            console.error(error);
+          
+          };
+
+        
+
+    }
 
     getUserList=async (req)=>{
         var users = await Auth.findAll(

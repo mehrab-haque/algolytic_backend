@@ -12,7 +12,14 @@ const Test = sq.define("test", {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
-    },   
+    },
+    submission_time: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.DATE.NOW   
+    },
+    marks: {
+      type: Sequelize.DOUBLE     
+    }  
     
 
   });

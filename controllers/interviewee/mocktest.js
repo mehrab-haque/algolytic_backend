@@ -19,6 +19,11 @@ class MocktestController extends Controller{
         var result=await mocktestService.createTest(req)
         return res.status(200).json(result)
     }
+
+    submitTest=async (req,res)=>{
+        var result=await mocktestService.submitTest(req)
+        return res.status(200).json(result)
+    }
     
 
     
