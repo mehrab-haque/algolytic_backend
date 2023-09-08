@@ -17,21 +17,45 @@ class RecommendationService extends Service {
             for (let index = 0; index < solved_problems.length; index++) {
                 console.log(solved_problems[index].get({plain:true}).problem.rating)
                 sum+=solved_problems[index].get({plain:true}).problem.rating
-
                 
             }
             sum=sum/cnt
+            console.log("rating"+sum)
+            const tagmap={}
+            var tres=await recommendationRepository.getCountbyTag(req.body['user_id'])
+            for (let index = 0; index < tres.length; index++) {
+                tagmap[tres[index].get({plain:true}).tag]=tres[index].get({plain:true}).count                
+            }
+            // console.log(tagmap)
+            // console.log(tagmap['dp']==undefined)
             // sum=1300
             let p=[]
             let dict={}
             for (let index = 0; index < problems.length; index++) {
+
+                var check=await recommendationRepository.checkifNewProblem(problems[index].get({plain:true}).problem_id,req.body['user_id'])
+                if(check[0].get({plain:true}).count>0)
+                {
+                    continue;
+                }
+                
+                let score=Math.abs(problems[index].get({plain:true}).rating-sum)
+                let cnt=0
+                if(tagmap[problems[index].get({plain:true}).tag]!=undefined)
+                {
+                    cnt=tagmap[problems[index].get({plain:true}).tag]
+                }
+                
+                score=score+(cnt-5)*100
+                problems[index].get({plain:true}).rating = score
+
                 p.push(problems[index].get({plain:true}))         
 
                 
             }
 
             
-            p.sort((a,b) => Math.abs(a.rating-sum)-Math.abs(b.rating-sum))
+            p.sort((a,b) => a.rating-b.rating)
             // console.log(p)
 
             let final_pblms=[]

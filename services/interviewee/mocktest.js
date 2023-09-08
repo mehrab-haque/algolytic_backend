@@ -22,7 +22,7 @@ class MocktestService extends Service {
                 
                 var prob=await mocktestRepository.getProblem(problemids[i].get({plain:true}).problemid)
                 
-                var count=await mocktestRepository.checkSubmission(problemids[i].get({plain:true}).problemid,subtime)
+                var count=await mocktestRepository.checkSubmission(problemids[i].get({plain:true}).problemid,subtime,req.body['user_id'])
                 let state=""
                 if(count[0].get({plain:true}).count>0)
                 {
@@ -67,7 +67,7 @@ class MocktestService extends Service {
             let selected_problems=[]
             for(var i=0;i<problems.length;i++){
                 if(selected_problems.length>=4)break
-                var count=await mocktestRepository.checkifNewProblems(problems[i].get({plain:true}).problem_id)
+                var count=await mocktestRepository.checkifNewProblems(problems[i].get({plain:true}).problem_id,req.body['user_id'])
                 if(count[0].get({plain:true}).count==0)
                 {
                     selected_problems.push(problems[i].get({plain:true}).problem_id)

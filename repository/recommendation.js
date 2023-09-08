@@ -5,6 +5,7 @@ const Dummy = require('../model/dummy');
 const Peer = require('../model/peer');
 const Repository=require('./base').Repository
 const Op = require('sequelize').Op;
+const sequelize=require('sequelize')
 
 class RecommendationRepository extends Repository {
     constructor() {
@@ -42,6 +43,61 @@ class RecommendationRepository extends Repository {
 
         );
         return users
+    }
+
+    getCountbyTag=async (user_id)=>{
+        var count = await Submission.findAll(
+            {               
+            
+                include:{
+                
+                    model:Problem,
+                    as: 'problem',
+                    required: true            
+                },
+                where:{
+                    user_id:user_id,
+                    verdict:"true"
+                },
+                attributes: [
+                    [
+                        sequelize.literal('COUNT(*)'),
+                        'count'
+                    ],
+                    [sequelize.col('problem.tag'), 'tag']
+                ],                
+                group: [    
+                    sequelize.col('"problem"."tag"'),sequelize.col('"problem"."problem_id"')  
+                ]
+                }               
+            
+
+        );
+        return count
+    }
+
+    checkifNewProblem=async (problem_id,user_id)=>{
+       
+        var count = await Submission.findAll(
+            {
+                attributes: [
+                    [
+                        sequelize.literal('COUNT(DISTINCT "submission_id")'),
+                        'count'
+                    ]
+                ],
+                where: {
+                    problem_id:problem_id,
+                    submission_time: {
+                        [Op.lt]: sequelize.literal('CURRENT_TIMESTAMP') // Select rows with submission_time less than the provided value
+                      },
+                    user_id:user_id,                             
+                  }                        
+                  
+                  }     
+        );
+        return count
+        
     }
 
     createRecommendation=async (recommendation)=>{

@@ -36,7 +36,7 @@ class MocktestRepository extends Repository {
         return problem
     }
 
-    checkSubmission=async (problem_id,submission_time)=>{
+    checkSubmission=async (problem_id,submission_time,user_id)=>{
 
         if(submission_time==null)
         {
@@ -50,7 +50,8 @@ class MocktestRepository extends Repository {
                     ],
                     where: {
                         problem_id:problem_id,                        
-                        verdict:"true"            
+                        verdict:"true",
+                        user_id:user_id            
                       }                        
                       
                       }     
@@ -72,7 +73,8 @@ class MocktestRepository extends Repository {
                         submission_time: {
                             [Op.lt]: submission_time // Select rows with submission_time less than the provided value
                           },
-                        verdict:"true"            
+                        verdict:"true",
+                        user_id:user_id            
                       }                        
                       
                       }     
@@ -82,7 +84,7 @@ class MocktestRepository extends Repository {
         
     }
 
-    checkifNewProblems=async (problem_id)=>{
+    checkifNewProblems=async (problem_id,user_id)=>{
        
         var count = await Submission.findAll(
             {
@@ -96,7 +98,8 @@ class MocktestRepository extends Repository {
                     problem_id:problem_id,
                     submission_time: {
                         [Op.lt]: Sequelize.literal('CURRENT_TIMESTAMP') // Select rows with submission_time less than the provided value
-                      }                             
+                      },
+                      user_id:user_id                             
                   }                        
                   
                   }     
