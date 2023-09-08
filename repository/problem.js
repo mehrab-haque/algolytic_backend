@@ -99,9 +99,28 @@ class ProblemRepository extends Repository {
     }
 
     getPopularProblems=async ()=>{
-      var problems = await sequelize.query(
-        'SELECT problem_id, COUNT(*) AS submission_count FROM submission GROUP BY problem_id ORDER BY submission_count DESC LIMIT 5'
-      )
+      const problems=await Submission.findAll({
+        attributes: [
+          [
+            sequelize.literal('COUNT(*)'),
+            'count'
+          ]
+        ],
+        include: [
+          {
+            model: Problem,
+            as: 'problem',
+            required: true
+          }
+        ],       
+        group: [    
+            sequelize.col('"problem"."problem_id"') 
+        ],
+        order: [
+          [sequelize.literal('"count"'), 'DESC']
+        ],
+        limit: 5
+      })
       return problems
   }
 

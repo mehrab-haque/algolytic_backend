@@ -12,10 +12,33 @@ class MocktestService extends Service {
 
     getTestProblems =async (req)=>{
         try{
-            var problems=await mocktestRepository.getTestProblems(req)
+            var testinfo=await mocktestRepository.getTestInfo(req.params.id)
+            var problemids=await mocktestRepository.getTestProblems(req.params.id)
+            let subtime=testinfo[0].get({plain:true}).submission_time
+            let marks=testinfo[0].get({plain:true}).marks
+            
+            let problems=[]
+            for(let i=0;i<problemids.length;i++){
+                
+                var prob=await mocktestRepository.getProblem(problemids[i].get({plain:true}).problemid)
+                
+                var count=await mocktestRepository.checkSubmission(problemids[i].get({plain:true}).problemid,subtime)
+                let state=""
+                if(count[0].get({plain:true}).count>0)
+                {
+                    state="solved"
+                }
+                else
+                {
+                    state="unsolved"
+                }
+                problems.push({prob,state})
+            }            
+            
+
             return {
                 success:true,
-                data:problems
+                data:{marks,problems}
             }
 
         }catch(e){
@@ -42,8 +65,14 @@ class MocktestService extends Service {
             var problems=await mocktestRepository.getProblemsbyTag(test)
             
             let selected_problems=[]
-            for(var i=0;i<Math.min(problems.length,4);i++){
-                selected_problems.push(problems[i].get({plain:true}).problem_id)
+            for(var i=0;i<problems.length;i++){
+                if(selected_problems.length>=4)break
+                var count=await mocktestRepository.checkifNewProblems(problems[i].get({plain:true}).problem_id)
+                if(count[0].get({plain:true}).count==0)
+                {
+                    selected_problems.push(problems[i].get({plain:true}).problem_id)
+                }
+                
             }
 
             var res3=await mocktestRepository.createTestProblems(test,selected_problems)

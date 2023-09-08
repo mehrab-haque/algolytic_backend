@@ -31,6 +31,95 @@ class MocktestRepository extends Repository {
         return problems
     }
 
+    getProblem=async (id)=>{
+        var problem = await Problem.findByPk(id)
+        return problem
+    }
+
+    checkSubmission=async (problem_id,submission_time)=>{
+
+        if(submission_time==null)
+        {
+            var count = await Submission.findAll(
+                {
+                    attributes: [
+                        [
+                            Sequelize.literal('COUNT(DISTINCT "submission_id")'),
+                            'count'
+                        ]
+                    ],
+                    where: {
+                        problem_id:problem_id,                        
+                        verdict:"true"            
+                      }                        
+                      
+                      }     
+            );
+            return count
+        }
+        else
+        {
+            var count = await Submission.findAll(
+                {
+                    attributes: [
+                        [
+                            Sequelize.literal('COUNT(DISTINCT "submission_id")'),
+                            'count'
+                        ]
+                    ],
+                    where: {
+                        problem_id:problem_id,
+                        submission_time: {
+                            [Op.lt]: submission_time // Select rows with submission_time less than the provided value
+                          },
+                        verdict:"true"            
+                      }                        
+                      
+                      }     
+            );
+            return count
+        }
+        
+    }
+
+    checkifNewProblems=async (problem_id)=>{
+       
+        var count = await Submission.findAll(
+            {
+                attributes: [
+                    [
+                        Sequelize.literal('COUNT(DISTINCT "submission_id")'),
+                        'count'
+                    ]
+                ],
+                where: {
+                    problem_id:problem_id,
+                    submission_time: {
+                        [Op.lt]: Sequelize.literal('CURRENT_TIMESTAMP') // Select rows with submission_time less than the provided value
+                      }                             
+                  }                        
+                  
+                  }     
+        );
+        return count
+        
+    }
+
+
+
+    getTestInfo=async (id)=>{
+        var problems = await Test.findAll(
+            {
+                attributes: ['marks','submission_time'],
+                where: {
+                    test_id:id            
+                  }                        
+                  
+                  }     
+        );
+        return problems
+    }
+
     getProblemsbyTag=async (req)=>{
 
         var users = await Problem.findAll(
