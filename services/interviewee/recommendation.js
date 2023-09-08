@@ -1,8 +1,11 @@
+const Auth = require('../../model/auth');
+const { AuthRepository } = require('../../repository/auth');
+
 const Service = require('../base').Service;
 const RecommendationRepository=require('../../repository/recommendation').RecommendationRepository
 
 const recommendationRepository=new RecommendationRepository()
-
+const authRepository=new AuthRepository()
 class RecommendationService extends Service {
     constructor() {
         super();
@@ -12,14 +15,22 @@ class RecommendationService extends Service {
         try{
             let problems=await recommendationRepository.getAll(req)
          let solved_problems=await recommendationRepository.getSubmissions(req)
+         let authData=await authRepository.status(req.body);
+       
+       
+
+           let user=authData[0].get({plain:true})
+         
             let sum=0,cnt=solved_problems.length
         //    console.log(solved_problems[1].get({plain:true}).problem.rating)
             for (let index = 0; index < solved_problems.length; index++) {
-                console.log(solved_problems[index].get({plain:true}).problem.rating)
+                
                 sum+=solved_problems[index].get({plain:true}).problem.rating
                 
             }
+            if(cnt !=0)
             sum=sum/cnt
+
             console.log("rating"+sum)
             const tagmap={}
             var tres=await recommendationRepository.getCountbyTag(req.body['user_id'])
@@ -28,6 +39,8 @@ class RecommendationService extends Service {
             }
             // console.log(tagmap)
             // console.log(tagmap['dp']==undefined)
+
+
             // sum=1300
             let p=[]
             let dict={}
@@ -64,12 +77,17 @@ class RecommendationService extends Service {
                 let temp=0         
                 for(let j=0;j<solved_problems.length;j++)
                 {
-                    if(solved_problems[j].get({plain:true}).problem.problem_id == p[index].problem_id)
+                    if(solved_problems[j].get({plain:true}).problem.problem_id == p[index].problem_id )
                     {
                         // console.log(solved_problems[j].get({plain:true}).problem.id)
                         temp=1
                         break
                     }
+                    console.log(user.sub_id)
+                    if(p[index].isPremium==1 && user.sub_id<2){
+                        temp=1;break;
+                    }
+
                 }
 
                 if(temp==0)
@@ -102,9 +120,31 @@ class RecommendationService extends Service {
     peerlist =async (req)=>{
         try{
             var data=await recommendationRepository.getPeerList(req)
+            var users=await authRepository.getUsers()
+            var data2=[]
+
+
+            for(let i=0;i<data.length;i++){
+                let obj=data[i].get({plain:true})
+                for(let j=0;j<users.length;j++){
+                    if(data[i].get({plain:true}).from==users[j].get({plain:true}).id){
+                       
+                        obj["from_name"]=users[j].get({plain:true})["name"]
+                        data2.push(obj)
+                       
+                    }
+                }
+
+              
+            }
+
+
+
+
+
             return {
                 success:true,
-                data:data
+                data:data2
             }
 
         }catch(e){
