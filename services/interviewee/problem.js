@@ -252,6 +252,27 @@ class ProblemService extends Service {
         return {success:true}
     }
 
+    getPopularProblems=async (req)=>{
+        try{
+            var problems=await problemRepository.getPopularProblems()
+         
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+       
+
+        
+        return {success:true}
+    }
+
     getSubmissions=async ({problem_id})=>{
         // try{
         //     var submissions=await SubmissionRepository.getAll()

@@ -98,6 +98,13 @@ class ProblemRepository extends Repository {
         return problem
     }
 
+    getPopularProblems=async ()=>{
+      var problems = await sequelize.query(
+        'SELECT problem_id, COUNT(*) AS submission_count FROM submission GROUP BY problem_id ORDER BY submission_count DESC LIMIT 5'
+      )
+      return problems
+  }
+
     delete=async (id)=>{
         var problems = await Problem.destroy({where:{problem_id:id} });
         return problems
