@@ -184,6 +184,12 @@ class ProblemService extends Service {
         console.log(query)
         try{
             var problems=await problemRepository.getFilteredProblems(query)
+            
+                
+                
+            
+
+
             return {
                 success:true,
                 data:problems
@@ -243,6 +249,27 @@ class ProblemService extends Service {
         // })
 
         // return stats
+        return {success:true}
+    }
+
+    getPopularProblems=async (req)=>{
+        try{
+            var problems=await problemRepository.getPopularProblems()
+         
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }
+       
+
+        
         return {success:true}
     }
 

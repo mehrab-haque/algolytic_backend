@@ -13,4 +13,7 @@ router.route("/peerpblmlist").get(authenticateRegularUser,recommendationControll
 router.route("/userlist").get(authenticateRegularUser,recommendationController.userlist);
 router.route("/recommend").post(authenticateRegularUser,recommendationController.recommendpblm);
 
+router.route("/dummylist").get(authenticateRegularUser,recommendationController.dummylist);
+router.route("/createdummy").post(authenticateRegularUser,recommendationController.createDummy);
+
 module.exports=router

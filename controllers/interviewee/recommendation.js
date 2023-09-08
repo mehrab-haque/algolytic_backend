@@ -32,6 +32,18 @@ class RecommendationController extends Controller{
         return res.status(200).json(result)
     }
 
+    dummylist=async (req,res)=>{
+        // console.log("new",req.body['user_id'])
+        var result=await recommendationService.dummylist(req)
+        return res.status(200).json(result)
+    }
+
+    createDummy=async (req,res)=>{
+        var result=await recommendationService.createDummy(req)
+        return res.status(200).json(result)
+    }
+
+
 //     create=async (req,res)=>{
 //         var result=await subService.create(req.body)
 //         return res.status(200).json(result)

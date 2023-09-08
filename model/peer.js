@@ -20,11 +20,11 @@ const Peer = sq.define("peer", {
     
       });
           
-     Peer.belongsTo(Problem,{
+  Peer.belongsTo(Problem,{
+
+    foreignKey:'problem_id',
+    onDelete:'CASCADE'
     
-        foreignKey:'problem_id',
-        onDelete:'CASCADE'
-        
-        }); 
+    }); 
 
 module.exports = Peer;
