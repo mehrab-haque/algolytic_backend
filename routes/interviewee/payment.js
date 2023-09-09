@@ -4,7 +4,7 @@ const PaymentController=require('../../controllers/interviewee/payment').Payment
 const paymentController=new PaymentController()
 
 router.route("/ipn").post(paymentController.ipn);
+router.route("/post-payment/:status").post(paymentController.postPayment);
 
 // module.exports=router
-
 exports.SSLCommerzRouter = router;
