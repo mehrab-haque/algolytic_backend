@@ -44,7 +44,9 @@ class SubmissionRepository extends Repository {
             
             language:submission.lang,
             user_id:submission.user_id ,
-            verdict:submission.verdict      
+            verdict:submission.verdict,
+            time:submission.time,
+            memory:submission.memory      
         })
         return sb
     }
