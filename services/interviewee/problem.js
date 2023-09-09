@@ -330,8 +330,8 @@ class ProblemService extends Service {
             stdin:input,
             language: lang,
             versionIndex: "0",
-            clientId: "7056f59f69fa61c7754a1738ce0d3cfe",
-            clientSecret:"9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e"
+            clientId:process.env.COMPILER_CLIENT_ID,
+            clientSecret:process.env.COMPILER_CLIENT_SECRET
         };
 
         var isError=false;
