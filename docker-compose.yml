@@ -17,6 +17,8 @@ services:
       - STORE_PASSWORD=brain64e06458586b5@ssl
       - IPN_URL=http://43.224.110.132/api/v1.0.0/payment/ipn
       - POST_PAYMENT_URL=http://43.224.110.132/post-payment
+      - SMTP_USER=kingphisher@hiredo.net
+      - SMTP_PASS=passWord123$$$
 
     ports:
       - 4000:4000
