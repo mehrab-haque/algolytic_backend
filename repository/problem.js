@@ -52,7 +52,7 @@ class ProblemRepository extends Repository {
 
           // Loop through the JSON data and count the occurrences of each difficulty level
           result.forEach(item => {
-            console.log(item)
+            // console.log(item)
             const difficulty = item.dataValues.difficulty;
             if (difficultyCounts[difficulty]) {
               difficultyCounts[difficulty]++;

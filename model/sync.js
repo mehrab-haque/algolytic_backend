@@ -40,7 +40,6 @@ const syncAll=async ()=>{
     }
 }
 
-
 syncAll()
 
 
