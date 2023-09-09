@@ -266,11 +266,26 @@ class ProblemService extends Service {
             return {
                 success:false,
             }
-        }
-       
-
+        }        
         
-        return {success:true}
+    }
+
+    getLeaderBoard=async (req)=>{
+        try{
+            var subs=await problemRepository.getLeaderBoard(req.params.id)
+         
+            return {
+                success:true,
+                data:subs
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }        
+        
     }
 
     getSubmissions=async ({problem_id})=>{
@@ -304,7 +319,7 @@ class ProblemService extends Service {
 
         var problem=await problemRepository.get(problem_id)
 
-        console.log(problem.data_json,problem_id)
+        // console.log(problem.data_json,problem_id)
 
         var input=problem.data_json['match-input']
         var output=problem.data_json['match-output']
@@ -328,6 +343,8 @@ class ProblemService extends Service {
 
             compilerResponse=compilerResponse.data
            console.log(compilerResponse)
+           var time=compilerResponse.cpuTime*1000
+           var memory=compilerResponse.memory
            var obj={}
            if(compilerResponse.output.includes("error:")){
             obj= {success:true,verdict:false,message:compilerResponse.output.split('error:')[1]}
@@ -343,11 +360,13 @@ class ProblemService extends Service {
                 obj= {success:true,verdict:false,message:'Output Mismatch'} 
             }
 
+            
+
 
             var verdict=!isError?`${compilerResponse.output.trim()}`===`${output.trim()}`:false;
             obj['verdict']=verdict
             try{
-                var pr=await subRepository.postSubmission({problem_id,user_id,code,lang,verdict})
+                var pr=await subRepository.postSubmission({problem_id,user_id,code,lang,verdict,time,memory})
                 
                 return obj
 
