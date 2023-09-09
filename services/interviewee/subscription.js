@@ -12,7 +12,6 @@ const { AuthRepository } = require('../../repository/auth');
 const { userTypeMapping } = require('../../config/constants');
 const axios = require('axios')
 
-
 const subRepository = new SubRepository()
 
 const authRepository = new AuthRepository()
@@ -170,6 +169,7 @@ class SubService extends Service {
 
       // Handle any additional logic after sending the email
     }
+
   }
   processCSV = async (fileBuffer) => {
 
