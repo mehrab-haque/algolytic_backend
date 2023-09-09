@@ -1,7 +1,6 @@
 const Service = require('../base').Service;
 const SubRepository = require('../../repository/subscription').SubRepository
 const SSLCommerzPayment = require('sslcommerz-lts');
-const { setSubscriptionPayload } = require('../../routes/interviewee/payment');
 const csv = require('csv-parser');
 const bcrypt = require('bcryptjs')
 const JWT = require('jsonwebtoken');
@@ -302,16 +301,11 @@ class SubService extends Service {
         ship_postcode: '1000',
         ship_country: 'Bangladesh',
         multi_card_name: 'internetbank,mobilebank,mastercard,visacard',
-        value_a: `${data.sub_id}`,
-        value_b: `${data.user_id}`
+        value_a: data.sub_id,
+        value_b: data.user_id
       };
       const sslcz = new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD, false);
       var apiResponse = await sslcz.init(pgwData)
-      setSubscriptionPayload({
-        user_id: data.user_id,
-        sub_id: data.sub_id,
-        sessionKey: apiResponse.sessionkey
-      })
       console.log(apiResponse.GatewayPageURL)
       return {
         success: true,
