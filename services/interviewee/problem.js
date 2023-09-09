@@ -184,6 +184,12 @@ class ProblemService extends Service {
         console.log(query)
         try{
             var problems=await problemRepository.getFilteredProblems(query)
+            
+                
+                
+            
+
+
             return {
                 success:true,
                 data:problems
@@ -246,6 +252,42 @@ class ProblemService extends Service {
         return {success:true}
     }
 
+    getPopularProblems=async (req)=>{
+        try{
+            var problems=await problemRepository.getPopularProblems()
+         
+            return {
+                success:true,
+                data:problems
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }        
+        
+    }
+
+    getLeaderBoard=async (req)=>{
+        try{
+            var subs=await problemRepository.getLeaderBoard(req.params.id)
+         
+            return {
+                success:true,
+                data:subs
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false,
+            }
+        }        
+        
+    }
+
     getSubmissions=async ({problem_id})=>{
         // try{
         //     var submissions=await SubmissionRepository.getAll()
@@ -300,7 +342,9 @@ class ProblemService extends Service {
             })
 
             compilerResponse=compilerResponse.data
-        //    console.log(compilerResponse)
+           console.log(compilerResponse)
+           var time=compilerResponse.cpuTime*1000
+           var memory=compilerResponse.memory
            var obj={}
            if(compilerResponse.output.includes("error:")){
             obj= {success:true,verdict:false,message:compilerResponse.output.split('error:')[1]}
@@ -316,11 +360,13 @@ class ProblemService extends Service {
                 obj= {success:true,verdict:false,message:'Output Mismatch'} 
             }
 
+            
+
 
             var verdict=!isError?`${compilerResponse.output.trim()}`===`${output.trim()}`:false;
             obj['verdict']=verdict
             try{
-                var pr=await subRepository.postSubmission({problem_id,user_id,code,lang,verdict})
+                var pr=await subRepository.postSubmission({problem_id,user_id,code,lang,verdict,time,memory})
                 
                 return obj
 

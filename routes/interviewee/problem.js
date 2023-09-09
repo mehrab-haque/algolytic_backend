@@ -16,4 +16,6 @@ router.route("/submissionstats").get(authenticateRegularUser,problemController.g
 router.route("/filter").get(problemController.getFilteredProblems);
 router.route("/solution/create").post(problemController.createSolution);
 router.route("/solutions/:id").get(authenticateRegularUser,problemController.getSolutions);
+router.route("/leaderboard/:id").get(authenticateRegularUser,problemController.getLeaderBoard);
+router.route("/getpopularpblms").get(authenticateRegularUser,problemController.getPopularProblems);
 module.exports=router

@@ -64,6 +64,16 @@ class ProblemController extends Controller{
         return res.status(200).json(result)
     }
 
+    getPopularProblems=async (req,res)=>{
+        var result=await problemService.getPopularProblems(req)
+        return res.status(200).json(result)
+    }
+
+    getLeaderBoard=async (req,res)=>{
+        var result=await problemService.getLeaderBoard(req)
+        return res.status(200).json(result)
+    }
+
     getSubmissionStats=async (req,res)=>{
         var result=await problemService.getSubmissionStats(req.body)
         return res.status(200).json(result)

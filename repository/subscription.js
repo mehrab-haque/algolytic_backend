@@ -38,6 +38,17 @@ class SubRepository extends Repository {
         })
         return sub
     }
+    subscribeByLogin=async (login,id)=>{
+        const sub = Auth.update({
+            sub_id:id
+        },
+        {
+            where:{
+                login:login
+            }
+        })
+        return sub
+    }
 
 }
 

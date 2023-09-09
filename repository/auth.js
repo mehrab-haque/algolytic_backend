@@ -23,6 +23,12 @@ class AuthRepository extends Repository {
           })
         return searchResult
     }
+    getUsers=async (login)=>{
+      var searchResult=await Auth.findAll({
+          
+        })
+      return searchResult
+  }
     status=async (body)=>{
       var searchResult=await Auth.findAll({
           where: {
