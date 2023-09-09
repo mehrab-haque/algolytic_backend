@@ -277,7 +277,7 @@ class ProblemService extends Service {
 
         var problem=await problemRepository.get(problem_id)
 
-        console.log(problem.data_json,problem_id)
+        // console.log(problem.data_json,problem_id)
 
         var input=problem.data_json['match-input']
         var output=problem.data_json['match-output']
@@ -300,7 +300,7 @@ class ProblemService extends Service {
             })
 
             compilerResponse=compilerResponse.data
-           console.log(compilerResponse)
+        //    console.log(compilerResponse)
            var obj={}
            if(compilerResponse.output.includes("error:")){
             obj= {success:true,verdict:false,message:compilerResponse.output.split('error:')[1]}

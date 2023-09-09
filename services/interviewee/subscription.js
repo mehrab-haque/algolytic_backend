@@ -1,7 +1,6 @@
 const Service = require('../base').Service;
 const SubRepository=require('../../repository/subscription').SubRepository
 const SSLCommerzPayment = require('sslcommerz-lts');
-const { setSubscriptionPayload } = require('../../routes/interviewee/payment');
 
 const subRepository=new SubRepository()
 
@@ -81,11 +80,6 @@ class SubService extends Service {
                 };
                 const sslcz = new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD, false);
                 var apiResponse=await sslcz.init(pgwData)
-                setSubscriptionPayload({
-                    user_id:data.user_id,
-                    sub_id:data.sub_id,
-                    sessionKey:apiResponse.sessionkey
-                })
                 return {
                     success:true,
                     data: apiResponse.GatewayPageURL

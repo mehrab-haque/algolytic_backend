@@ -40,7 +40,7 @@ class AuthRepository extends Repository {
     
       })
     
-      console.log(searchResult.get({plain:true}))
+      // console.log(searchResult.get({plain:true}))
     return searchResult
 }
 
@@ -48,7 +48,7 @@ class AuthRepository extends Repository {
 
     create =async (creds)=>{
         creds={...creds,sub_id:1}
-        console.log(creds);
+        // console.log(creds);
         var createResult=await Auth.create(creds)
         return createResult
     }

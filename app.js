@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors')
+const bodyParser=require('body-parser')
 const swaggarUi=require('swagger-ui-express')
 const docs = require('./docs')
 
@@ -14,7 +15,10 @@ require('./model/sync')
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 app.use('/api/v1.0.0/docs',swaggarUi.serve,swaggarUi.setup(docs))
 
