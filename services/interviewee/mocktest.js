@@ -49,6 +49,25 @@ class MocktestService extends Service {
         }
     }
 
+    getCompletedTests =async (req)=>{
+        try{
+            var tests=await mocktestRepository.getCompletedTests(req.body['user_id'])          
+            
+
+            return {
+                success:true,
+                data:tests
+            }
+
+        }catch(e){
+            console.log(e)
+            return {
+                success:false
+            }
+        }
+          
+    }
+
     createTest =async (test)=>{
         try{
             var res1=await mocktestRepository.createTest(test)
