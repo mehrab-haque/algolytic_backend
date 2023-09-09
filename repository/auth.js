@@ -28,10 +28,22 @@ class AuthRepository extends Repository {
           where: {
             id:body.user_id
           },
-          attributes:['sub_id']
+      
         })
       return searchResult
   }
+  admin=async (body)=>{
+    var searchResult=await Auth.findOne({
+        where: {
+          id:body.user_id
+        },
+    
+      })
+    
+      console.log(searchResult.get({plain:true}))
+    return searchResult
+}
+
 
 
     create =async (creds)=>{
