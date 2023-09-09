@@ -1,4 +1,5 @@
 const Problem = require('../model/problem');
+const Auth = require('../model/auth');
 const Repository=require('./base').Repository
 // const Problem=require('../model/problem')
 const sequelize = require('sequelize');
@@ -125,7 +126,12 @@ class ProblemRepository extends Repository {
   }
 
   getLeaderBoard=async (problem_id)=>{
-    const subs=await Submission.findAll({     
+    const subs=await Submission.findAll({  
+      include: [
+        {
+          model: Auth          
+        }
+      ],   
       where: {
         problem_id:problem_id,
         verdict:"true"
