@@ -72,6 +72,7 @@ class MocktestRepository extends Repository {
                       
                       }     
             );
+            console.log(count)
             return count
         }
         else
@@ -157,7 +158,7 @@ class MocktestRepository extends Repository {
     createTest=async (test)=>{
 
         const result = Test.create({
-            id: test.body["user_id"]
+            id: test["user_id"]
             
         })
         
@@ -184,8 +185,8 @@ class MocktestRepository extends Repository {
         for (let index = 0; index < problems.length; index++) {
 
             const rec = TestProblem.create({
-                testid:test.body["test_id"],
-                problemid:problems[index]
+                testid:test,
+                problemid:parseInt(problems[index])
                 
             })          
         }

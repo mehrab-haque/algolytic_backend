@@ -49,14 +49,40 @@ class MocktestService extends Service {
         }
     }
 
-    getCompletedTests =async (req)=>{
+    createTest =async (test)=>{
         try{
-            var tests=await mocktestRepository.getCompletedTests(req.body['user_id'])          
+            var res1=await mocktestRepository.createTest(test)
+             console.log(test.body)
+            // console.log(res1.get({plain:true}).test_id)
+            var tagids=await tagRepository.getIdFromTag(test.body["tags"])
+            let ids=[]
+            for(var i=0;i<tagids.length;i++){
+                ids.push(tagids[i].get({plain:true}).id)
+            }
+            
+            var res2=await mocktestRepository.createTestTags(ids, res1.get({plain:true}).test_id)
+            console.log(res2)
+
+            var problems=await mocktestRepository.getProblemsbyTag(test)
+            
+            let selected_problems=[]
+            for(var i=0;i<problems.length;i++){
+                if(selected_problems.length>=4)break
+                var count=await mocktestRepository.checkifNewProblems(problems[i].get({plain:true}).problem_id,test.body['user_id'])
+                if(count[0].get({plain:true}).count==0)
+                {
+                    selected_problems.push(problems[i].get({plain:true}).problem_id)
+                }
+                
+            }
+
+            var res3=await mocktestRepository.createTestProblems(res1.get({plain:true}).test_id,selected_problems)
             
 
             return {
                 success:true,
-                data:tests
+                data:selected_problems,
+                id:res1.get({plain:true}).test_id
             }
 
         }catch(e){
@@ -99,7 +125,7 @@ class MocktestService extends Service {
 
             return {
                 success:true,
-                data:sub
+                data:{sub:sub,marks:marks}
             }
 
         }catch(e){
