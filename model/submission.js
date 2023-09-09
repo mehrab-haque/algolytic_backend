@@ -22,7 +22,13 @@ const Submission = sq.define("submission", {
     },
     language:{
         type: Sequelize.STRING
-    }   
+    },
+    time:{
+        type: Sequelize.DOUBLE
+    },
+    memory:{
+        type: Sequelize.INTEGER
+    }     
     
 
   });

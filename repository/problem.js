@@ -124,6 +124,22 @@ class ProblemRepository extends Repository {
       return problems
   }
 
+  getLeaderBoard=async (problem_id)=>{
+    const subs=await Submission.findAll({     
+      where: {
+        problem_id:problem_id,
+        verdict:"true"
+      },
+      order: [
+        ["time", 'ASC'],
+        ["memory", "ASC"],
+      ],
+      limit: 5
+    })
+    return subs
+}
+
+
     delete=async (id)=>{
         var problems = await Problem.destroy({where:{problem_id:id} });
         return problems
