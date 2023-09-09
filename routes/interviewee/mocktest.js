@@ -16,6 +16,7 @@ const mocktestController=new MocktestController()
 // router.route("/createdummy").post(authenticateRegularUser,recommendationController.createDummy);
 
 router.route("/testpblmlist/:id").get(authenticateRegularUser,mocktestController.getTestProblems);
+router.route("/getCompletedTests").get(authenticateRegularUser,mocktestController.getCompletedTests);
 router.route("/createTest").post(authenticateRegularUser,mocktestController.createTest);
 router.route("/submitTest").post(authenticateRegularUser,mocktestController.submitTest);
 

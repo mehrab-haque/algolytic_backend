@@ -15,6 +15,22 @@ class MocktestRepository extends Repository {
         super();
     }
 
+    getCompletedTests=async (user_id)=>{
+        var problems = await Test.findAll(
+            {
+                where: {
+                    id:user_id,
+                    submission_time: {
+                        [Sequelize.Op.not]: null,
+                      }            
+                  }
+                           
+                  
+                  }     
+        );
+        return problems
+    }
+
     getTestProblems=async (id)=>{
         var problems = await TestProblem.findAll(
             {
