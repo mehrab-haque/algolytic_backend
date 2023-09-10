@@ -1,13 +1,13 @@
 const Controller = require("./base").Controller;
+const fs=require('fs')
 
 
 class MonitorController extends Controller{
     constructor(){
         super()
     }
-
     gitBackendWebhook=async (req,res)=>{
-        console.log(req.body)
+        fs.writeFileSync(`${Date.now()}.json`,JSON.stringify(req.body))
         res.sendStatus(200)
     }
 }
