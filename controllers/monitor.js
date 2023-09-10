@@ -76,6 +76,10 @@ class MonitorController extends Controller{
     }
     gitBackendWebhook=async (req,res)=>{
         var payload=req.body
+        var obj=this.state
+        console.log(obj,this.state)
+        return res.sendStatus(200)
+
 
         if(Object.keys(payload).indexOf('action')>=0 && payload.action==='opened'){
             if(payload.pull_request.base.repo.name==="algolytic_backend"){
@@ -208,7 +212,7 @@ class MonitorController extends Controller{
             }
         }
 
-        res.sendStatus(200)
+        return res.sendStatus(200)
     }
 }
 
