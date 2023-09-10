@@ -88,14 +88,15 @@ class MonitorController extends Controller{
                     obj.bCodeToDev['label']=''
                     this.updateAll(obj)
                 }
-                else if(payload.pull_request.base.ref==='main'){
-                    console.log('backend: main pr created')
+
+                else if(payload.pull_request.base.ref ==='main'){
+                    console.log('backend: main pr created ')
                     var obj=this.state
                     obj.bdevToMain['state']='loading'
                     obj.bdevToMain['timestamp']=Date.now()
                     obj.bdevToMain['label']=''
                     this.updateAll(obj)
-
+                    //thus
                 }
             }
         }
