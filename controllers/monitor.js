@@ -47,7 +47,7 @@ class MonitorController extends Controller{
                         console.log('backend: dev deployment started')
                     }
                     else if(payload.action==='completed'){
-                        if(payload.workflow_run.conslusion==='success')
+                        if(payload.workflow_run.conclusion==='success')
                             console.log('backend: dev deployment completed successfully')
                         else
                             console.log('backend: dev deployment failed')
@@ -58,7 +58,7 @@ class MonitorController extends Controller{
                         console.log('backend: testings started')
                     }
                     else if(payload.action==='completed'){
-                        if(payload.workflow_run.conslusion==='success')
+                        if(payload.workflow_run.conclusion==='success')
                             console.log('backend: testings completed successfully')
                         else
                             console.log('backend: testings failed')
