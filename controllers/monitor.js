@@ -72,6 +72,7 @@ class MonitorController{
         })
         MonitorController.arr=[]
     }
+    //sdsd
     static awsProdBack=async (req,res)=>{
         console.log('prod back deployed')
         var obj=MonitorController.state
