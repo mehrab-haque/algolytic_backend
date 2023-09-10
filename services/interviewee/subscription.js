@@ -107,10 +107,10 @@ class SubService extends Service {
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(pass, salt);
       //nicher line ta tw uncomment hobe right ???????
-      // const insertResult = await authRepository.create({ name: username, login: recipient.Email, password: hashedPass, type: userTypeMapping.USER_TYPE_REGULAR });
+      const insertResult = await authRepository.create({ name: username, login: recipient.email, password: hashedPass, type: userTypeMapping.USER_TYPE_REGULAR });
 
       // // Handle subscription logic here
-      // const r = await subRepository.subscribeByLogin(recipient.Email, 3);
+      const r = await subRepository.subscribeByLogin(recipient.email, 3);
 
 
       mailOptions.to = recipient.email;
