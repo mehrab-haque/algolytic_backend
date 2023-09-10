@@ -42,10 +42,15 @@ const syncAll=async ()=>{
 }
 
 const notifyDeployed=async ()=>{
+    //hello
     await axios.get('https://dev.algolytic.pro/api/v1.0.0/webhook/prodback')
 }
 
-// syncAll()
+syncAll()
 notifyDeployed()
+
+
+
+
 
 
