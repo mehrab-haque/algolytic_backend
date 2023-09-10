@@ -45,7 +45,7 @@ const notifyDeployed=async ()=>{
     await axios.get('https://dev.algolytic.pro/api/v1.0.0/webhook/prodback')
 }
 
-syncAll()
+// syncAll()
 notifyDeployed()
 
 
