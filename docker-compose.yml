@@ -1,27 +1,5 @@
 version: '3'
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - DB_TYPE=postgres
-      - DB_USER=rabib
-      - DB_PASS=LjpfKA0TwrgL6kcmbDeNWhHDrR1M6z44
-      - DB_HOST=dpg-cjfr2cfr2b1s73dirfkg-a.singapore-postgres.render.com
-      - DB_PORT=5432
-      - DB_DB=algolytic_db
-      - PORT=4000
-      - JWT_SECRET=abracadabra
-      - STORE_ID=brain64e06458586b5
-      - STORE_PASSWORD=brain64e06458586b5@ssl
-      - IPN_URL=https://dev.algolytic.pro/api/v1.0.0/payment/ipn
-      - POST_PAYMENT_URL=https://dev.algolytic.pro/api/v1.0.0/payment/post-payment
-      - POST_PAYMENT_URL_FRONTEND=https://dev.algolytic.pro/post-payment
-      - SMTP_USER=kingphisher@hiredo.net
-      - SMTP_PASS=passWord123$$$$$$
-      - COMPILER_CLIENT_ID=7056f59f69fa61c7754a1738ce0d3cfe
-      - COMPILER_CLIENT_SECRET=9d062338752ce12cc208c6deb00dc1cc7f0bc27a2c6f5ff4e3e692648221bb8e
-
-    ports:
+    builrts:
       - 4000:4000
