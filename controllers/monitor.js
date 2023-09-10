@@ -8,7 +8,7 @@ class MonitorController extends Controller{
     constructor(){
         super()
         this.arr=[]
-        this.state=={
+        this.state={
             fCodeToDev:{
                 state:'success',
                 timestamp:Date.now(),
