@@ -4,6 +4,7 @@ const constants= require('../config/constants')
 const bcrypt=require('bcryptjs')
 const JWT = require('jsonwebtoken');
 const { userTypeMapping } = require('../config/constants');
+const { inMemoryCache } = require('../repository/authMiddleWares');
 const AuthRepository=require('../repository/auth').AuthRepository
 
 const authRepository=new AuthRepository()
@@ -85,6 +86,7 @@ class AuthService extends Service {
                 error:'wrong password'
             }
         const token=this.signToken(lookupResult[0])
+        inMemoryCache[`${lookupResult[0].id}`]=token
         return{
             success:true,
             token
