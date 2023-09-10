@@ -65,6 +65,8 @@ class MonitorController extends Controller{
             }     
         }
     }
+
+    //hello
     initialize=async (req,res)=>{
         return res.status(200).json(this.state)
     }
