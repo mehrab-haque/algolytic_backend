@@ -3,8 +3,19 @@ const fs=require('fs')
 
 
 class MonitorController extends Controller{
+    arr
     constructor(){
         super()
+        this.arr=[]
+    }
+    connect=async (req,res)=>{
+        this.arr.push(res)
+    }
+    updateAll=async (obj)=>{
+        this.arr.map(a=>{
+            a.status(200).json(obj)
+        })
+        this.arr=[]
     }
     gitBackendWebhook=async (req,res)=>{
         var payload=req.body
@@ -13,9 +24,12 @@ class MonitorController extends Controller{
             if(payload.pull_request.base.repo.name==="algolytic_backend"){
                 if(payload.pull_request.base.ref==='dev'){
                     console.log('backend: dev pr created')
+                    this.updateAll({status:'backend: dev pr created'})
                 }
                 else if(payload.pull_request.base.ref==='main'){
                     console.log('backend: main pr created')
+                    this.updateAll({status:'backend: dev pr created'})
+
                 }
             }
         }
@@ -23,9 +37,13 @@ class MonitorController extends Controller{
             if(payload.pull_request.base.repo.name==="algolytic_backend"){
                 if(payload.pull_request.base.ref==='dev'){
                     console.log('backend: dev pr closed')
+                    this.updateAll({status:'backend: dev pr created'})
+
                 }
                 else if(payload.pull_request.base.ref==='main'){
                     console.log('backend: main pr closed')
+                    this.updateAll({status:'backend: dev pr created'})
+
                 }
             }
         }
@@ -33,9 +51,13 @@ class MonitorController extends Controller{
             if(payload.repository.name==="algolytic_backend"){
                 if(payload.ref==='refs/heads/dev'){
                     console.log('backend: dev changed')
+                    this.updateAll({status:'backend: dev pr created'})
+
                 }
-                else if(payload.ref==='refs/heads/dev'){
+                else if(payload.ref==='refs/heads/main'){
                     console.log('backend: main changed')
+                    this.updateAll({status:'backend: dev pr created'})
+
                 }
             }
         }
@@ -45,23 +67,39 @@ class MonitorController extends Controller{
                 if(payload.workflow_run.name==='DevDeploy'){
                     if(payload.action==='requested'){
                         console.log('backend: dev deployment started')
+                    this.updateAll({status:'backend: dev pr created'})
+
                     }
                     else if(payload.action==='completed'){
-                        if(payload.workflow_run.conclusion==='success')
+                        if(payload.workflow_run.conclusion==='success'){
                             console.log('backend: dev deployment completed successfully')
-                        else
+                    this.updateAll({status:'backend: dev pr created'})
+                        }
+
+                        else{
                             console.log('backend: dev deployment failed')
+                    this.updateAll({status:'backend: dev pr created'})
+                        }
+
                     }
                 }
                 else if(payload.workflow_run.name==='PingTest'){
                     if(payload.action==='requested'){
                         console.log('backend: testings started')
+                    this.updateAll({status:'backend: dev pr created'})
+
                     }
                     else if(payload.action==='completed'){
-                        if(payload.workflow_run.conclusion==='success')
+                        if(payload.workflow_run.conclusion==='success'){
                             console.log('backend: testings completed successfully')
-                        else
+                    this.updateAll({status:'backend: dev pr created'})
+
+                        }
+                        else{
                             console.log('backend: testings failed')
+                    this.updateAll({status:'backend: dev pr created'})
+
+                        }
                     }
                 }
             }
