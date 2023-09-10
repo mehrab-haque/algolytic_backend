@@ -16,8 +16,8 @@ services:
       - STORE_ID=brain64e06458586b5
       - STORE_PASSWORD=brain64e06458586b5@ssl
       - IPN_URL=https://dev.algolytic.pro/api/v1.0.0/payment/ipn
-      - POST_PAYMENT_URL=http://43.224.110.132/api/v1.0.0/payment/post-payment
-      - POST_PAYMENT_URL_FRONTEND=http://43.224.110.132/post-payment
+      - POST_PAYMENT_URL=https://dev.algolytic.pro/api/v1.0.0/payment/post-payment
+      - POST_PAYMENT_URL_FRONTEND=https://dev.algolytic.pro/post-payment
       - SMTP_USER=kingphisher@hiredo.net
       - SMTP_PASS=passWord123$$$$$$
       - COMPILER_CLIENT_ID=7056f59f69fa61c7754a1738ce0d3cfe
