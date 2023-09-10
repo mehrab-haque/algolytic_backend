@@ -23,6 +23,7 @@ const Auth = sq.define("auth", {
   
 
   });
+  //comme
 
   Subscription.hasMany(Auth, {
     foreignKey: 'sub_id', // This will be the foreign key in the 'Course' model
