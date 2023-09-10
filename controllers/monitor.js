@@ -72,6 +72,15 @@ class MonitorController{
         })
         MonitorController.arr=[]
     }
+    static awsProdBack=async (req,res)=>{
+        console.log('prod back deployed')
+        var obj=MonitorController.state
+        obj.bMainToDeploy['state']='success'
+        obj.bMainToDeploy['timestamp']=Date.now()
+        obj.bMainToDeploy['label']=''
+        MonitorController.updateAll(obj)
+        res.sendStatus(200)
+    }
     static gitBackendWebhook=async (req,res)=>{
         var payload=req.body
 
@@ -174,6 +183,9 @@ class MonitorController{
                     obj.bdevToMain['state']='success'
                     obj.bdevToMain['timestamp']=Date.now()
                     obj.bdevToMain['label']=''
+                    obj.bMainToDeploy['state']='loading'
+                    obj.bMainToDeploy['timestamp']=Date.now()
+                    obj.bMainToDeploy['label']=''
                     MonitorController.updateAll(obj)
 
                 }
