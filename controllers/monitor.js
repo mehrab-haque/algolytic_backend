@@ -96,6 +96,25 @@ class MonitorController{
                     MonitorController.updateAll(obj)
                     //thus
                 }
+            }else{
+                if(payload.pull_request.base.ref==='dev'){
+                    console.log('frontend: dev pr created')
+                    var obj=MonitorController.state
+                    obj.fCodeToDev['state']='loading'
+                    obj.fCodeToDev['timestamp']=Date.now()
+                    obj.fCodeToDev['label']=''
+                    MonitorController.updateAll(obj)
+                }
+
+                else if(payload.pull_request.base.ref ==='main'){
+                    console.log('frontend: main pr created ')
+                    var obj=MonitorController.state
+                    obj.fdevToMain['state']='loading'
+                    obj.fdevToMain['timestamp']=Date.now()
+                    obj.fdevToMain['label']=''
+                    MonitorController.updateAll(obj)
+                    //thus
+                }
             }
         }
         else if(Object.keys(payload).indexOf('action')>=0 && payload.action==='closed'){
@@ -118,6 +137,25 @@ class MonitorController{
                     MonitorController.updateAll(obj)
 
                 }
+            }else{
+                if(payload.pull_request.base.ref==='dev'){
+                    console.log('frontend: dev pr closed')
+                    var obj=MonitorController.state
+                    obj.fCodeToDev['state']='success'
+                    obj.fCodeToDev['timestamp']=Date.now()
+                    obj.fCodeToDev['label']=''
+                    MonitorController.updateAll(obj)
+
+                }
+                else if(payload.pull_request.base.ref==='main'){
+                    console.log('frontend: main pr closed')
+                    var obj=MonitorController.state
+                    obj.fdevToMain['state']='success'
+                    obj.fdevToMain['timestamp']=Date.now()
+                    obj.fdevToMain['label']=''
+                    MonitorController.updateAll(obj)
+
+                }
             }
         }
         else if(Object.keys(payload).indexOf('before')>=0 && Object.keys(payload).indexOf('after')>=0){
@@ -136,6 +174,24 @@ class MonitorController{
                     obj.bdevToMain['state']='success'
                     obj.bdevToMain['timestamp']=Date.now()
                     obj.bdevToMain['label']=''
+                    MonitorController.updateAll(obj)
+
+                }
+            }else{
+                if(payload.ref==='refs/heads/dev'){
+                    console.log('frontend: dev changed')
+                    var obj=MonitorController.state
+                    obj.fCodeToDev['state']='success'
+                    obj.fCodeToDev['timestamp']=Date.now()
+                    obj.fCodeToDev['label']=''
+                    MonitorController.updateAll(obj)
+
+                }
+                else if(payload.ref==='refs/heads/main'){
+                    var obj=MonitorController.state
+                    obj.fdevToMain['state']='success'
+                    obj.fdevToMain['timestamp']=Date.now()
+                    obj.fdevToMain['label']=''
                     MonitorController.updateAll(obj)
 
                 }
@@ -203,6 +259,38 @@ class MonitorController{
                             obj.bDevToTest['label']='Failed: '
                             MonitorController.updateAll(obj)
                         }
+                    }
+                }
+            }else{
+                if(payload.workflow_run.name==='DevDeploy'){
+                    if(payload.action==='requested'){
+                        console.log('frontend: dev deployment started')
+                        var obj=MonitorController.state
+                        obj.fDevToDeploy['state']='loading'
+                        obj.fDevToDeploy['timestamp']=Date.now()
+                        obj.fDevToDeploy['label']=''
+                        MonitorController.updateAll(obj)
+
+                    }
+                    else if(payload.action==='completed'){
+                        if(payload.workflow_run.conclusion==='success'){
+                            console.log('frontend: dev deployment completed successfully')
+                            var obj=MonitorController.state
+                            obj.fDevToDeploy['state']='success'
+                            obj.fDevToDeploy['timestamp']=Date.now()
+                            obj.fDevToDeploy['label']=''
+                            MonitorController.updateAll(obj)
+                        }
+
+                        else{
+                            console.log('frontend: dev deployment failed')
+                            var obj=MonitorController.state
+                            obj.fDevToDeploy['state']='error'
+                            obj.fDevToDeploy['timestamp']=Date.now()
+                            obj.fDevToDeploy['label']='Failed: '
+                            MonitorController.updateAll(obj)
+                        }
+
                     }
                 }
             }
