@@ -7,7 +7,7 @@ class MonitorController extends Controller{
     }
 
     gitBackendWebhook=async (req,res)=>{
-        console.log(req.body.hook)
+        console.log(req.body)
         res.sendStatus(200)
     }
 }
