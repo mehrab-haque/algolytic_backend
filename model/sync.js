@@ -42,7 +42,7 @@ const syncAll=async ()=>{
 }
 
 const notifyDeployed=async ()=>{
-    await axios.get('https://9568-37-111-201-223.ngrok-free.app/api/v1.0.0/webhook/prodback')
+    await axios.get('https://dev.algolytic.pro/api/v1.0.0/webhook/prodback')
 }
 
 syncAll()

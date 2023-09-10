@@ -85,6 +85,7 @@ class MonitorController{
         var payload=req.body
 
 
+
         if(Object.keys(payload).indexOf('action')>=0 && payload.action==='opened'){
             if(payload.pull_request.base.repo.name==="algolytic_backend"){
                 if(payload.pull_request.base.ref==='dev'){
