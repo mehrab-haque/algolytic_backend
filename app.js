@@ -11,6 +11,7 @@ const { SSLCommerzRouter } = require('./routes/interviewee/payment');
 const subRoutes=require('./routes/interviewee/subscription')
 const recommendationRoutes=require('./routes/interviewee/recommendation')
 const mocktestRoutes=require('./routes/interviewee/mocktest')
+const webhookRoutes=require('./routes/webhooks.js')
 
 require('./model/sync')
 
@@ -35,5 +36,6 @@ app.use('/api/v1.0.0/subscription', subRoutes);
 app.use('/api/v1.0.0/recommendation', recommendationRoutes);
 app.use('/api/v1.0.0/mocktest', mocktestRoutes);
 app.use('/api/v1.0.0/payment', SSLCommerzRouter);
+app.use('/api/v1.0.0/webhook', webhookRoutes);
 
 module.exports = {app};
