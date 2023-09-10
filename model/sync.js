@@ -1,4 +1,5 @@
 const { initializeAll } = require('../repository/initialize')
+const axios=require('axios')
 const Auth=require('./auth')
 const Problem=require('./problem')
 const Submission=require('./submission')
@@ -40,6 +41,11 @@ const syncAll=async ()=>{
     }
 }
 
-// syncAll()
+const notifyDeployed=async ()=>{
+    await axios.get('https://9568-37-111-201-223.ngrok-free.app/api/v1.0.0/webhook/prodback')
+}
+
+syncAll()
+notifyDeployed()
 
 

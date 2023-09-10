@@ -51,7 +51,8 @@ class MocktestService extends Service {
 
     getCompletedTests =async (req)=>{
         try{
-            var tests=await mocktestRepository.getCompletedTests(req.body['user_id'])          
+            var tests=await mocktestRepository.getCompletedTests(req.body['user_id'])   
+            console.log(tests)       
             
 
             return {
