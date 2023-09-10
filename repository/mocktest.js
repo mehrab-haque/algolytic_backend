@@ -158,7 +158,7 @@ class MocktestRepository extends Repository {
     createTest=async (test)=>{
 
         const result = Test.create({
-            id: test["user_id"]
+            id: test.body["user_id"]
             
         })
         
