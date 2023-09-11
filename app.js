@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use('/api/v1.0.0/docs',swaggarUi.serve,swaggarUi.setup(docs))
 
 app.get("/api/v1.0.0/ping", function (req, res) {
-    res.send("hello world changed");
+    res.send("hello world");
 });
 
 
