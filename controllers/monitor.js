@@ -245,7 +245,7 @@ class MonitorController{
 
                     }
                 }
-                //comment
+                //comment new
                 else if(payload.workflow_run.name==='PingTest'){
                     if(payload.action==='requested'){
                         console.log('backend: testings started')
